@@ -1,0 +1,89 @@
+include: package:very_good_analysis/analysis_options.yaml
+
+linter:
+  rules:
+    - avoid_classes_with_only_static_members
+    - avoid_types_on_closure_parameters
+    - cancel_subscriptions
+  # - discarded_futures
+    - unnecessary_null_aware_operator_on_extension_on_nullable
+
+dart_code_metrics:
+  metrics:
+    cyclomatic-complexity: 20
+    maximum-nesting-level: 5
+    number-of-arguments: 4
+  metrics-exclude:
+    - test/**
+  rules:
+    - always-remove-listener
+    - arguments-ordering:
+        child-last: true
+    - avoid-border-all
+    - avoid-cascade-after-if-null
+    - avoid-collection-methods-with-unrelated-types
+    - avoid-double-slash-imports
+    - avoid-duplicate-exports
+    - avoid-global-state
+    - avoid-missing-enum-constant-in-map
+    - avoid-nested-conditional-expressions:
+        acceptable-level: 2
+    - avoid-redundant-async
+    - avoid-returning-widgets
+    - avoid-shrink-wrap-in-lists
+    - avoid-throw-in-catch-block
+    - avoid-unnecessary-conditionals
+    - avoid-unnecessary-setstate
+    - avoid-unnecessary-type-assertions
+    - avoid-unnecessary-type-casts
+    - avoid-unrelated-type-assertions
+    - avoid-expanded-as-spacer
+    - avoid-wrapping-in-padding
+    - binary-expression-operand-order
+    - double-literal-format
+    - format-comment:
+        ignored-patterns:
+          - ^coverage.*
+  # - member-ordering
+    - missing-test-assertion
+    - newline-before-return
+    - no-boolean-literal-compare
+    - no-equal-then-else
+  # - no-magic-number
+    - prefer-conditional-expressions
+    - prefer-correct-edge-insets-constructor
+    - prefer-correct-test-file-name:
+        exclude:
+          - lib/**
+          - bin/**
+          - "**/main.dart"
+    - prefer-enums-by-name
+  # - prefer-extracting-callbacks
+    - prefer-first
+    - prefer-immediate-return
+    - prefer-iterable-of
+    - prefer-last
+    - prefer-match-file-name:
+        exclude:
+          - test/**
+  # - prefer-moving-to-variable
+    - prefer-trailing-comma
+    - prefer-single-widget-per-file:
+        ignore-private-widgets: true
+    - use-setstate-synchronously
+  anti-patterns:
+    - long-parameter-list
+
+analyzer:
+  plugins:
+    - dart_code_metrics
+
+  errors:
+    avoid_equals_and_hash_code_on_mutable_classes: ignore
+    public_member_api_docs: ignore
+    unused_element: ignore # See https://github.com/dart-lang/sdk/issues/49025
+
+    # Style decisions
+    always_put_required_named_parameters_first: ignore
+    always_use_package_imports: ignore
+    sort_constructors_first: ignore
