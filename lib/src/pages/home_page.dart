@@ -1,5 +1,5 @@
 import 'package:el_meu_diec/src/model/definition_entry_senses.dart';
-import 'package:el_meu_diec/src/widgets/search_bar.dart';
+import 'package:el_meu_diec/src/widgets/centered_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -33,7 +33,7 @@ class HomePage extends StatelessWidget {
                     .copyWith(color: colorScheme.onPrimary),
               ),
               const SizedBox(height: 40),
-              const Expanded(child: SearchBar()),
+              const Expanded(child: CenteredSearchBar()),
             ],
           ),
         ),
