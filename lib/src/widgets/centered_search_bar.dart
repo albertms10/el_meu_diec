@@ -1,14 +1,14 @@
 import 'package:el_meu_diec/src/widgets/autocomplete_entries_list_view.dart';
 import 'package:flutter/material.dart';
 
-class SearchBar extends StatefulWidget {
-  const SearchBar({super.key});
+class CenteredSearchBar extends StatefulWidget {
+  const CenteredSearchBar({super.key});
 
   @override
-  State<SearchBar> createState() => _SearchBarState();
+  State<CenteredSearchBar> createState() => _CenteredSearchBarState();
 }
 
-class _SearchBarState extends State<SearchBar> {
+class _CenteredSearchBarState extends State<CenteredSearchBar> {
   final ValueNotifier<String> _query = ValueNotifier<String>('');
 
   @override
