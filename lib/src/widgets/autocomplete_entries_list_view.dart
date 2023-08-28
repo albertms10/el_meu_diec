@@ -1,5 +1,4 @@
-import 'package:el_meu_diec/src/model/autocomplete_entries.dart';
-import 'package:el_meu_diec/src/model/autocomplete_entry.dart';
+import 'package:el_meu_diec/model.dart';
 import 'package:el_meu_diec/src/widgets/autocomplete_entry_card.dart';
 import 'package:el_meu_diec/src/widgets/equipped_card.dart';
 import 'package:flutter/material.dart';

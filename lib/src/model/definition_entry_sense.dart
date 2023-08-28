@@ -1,53 +1,90 @@
-import 'package:el_meu_diec/src/utils/enum_try_by_name_extension.dart';
+import 'package:flutter/foundation.dart' show immutable, listEquals;
 import 'package:html/dom.dart';
 
-enum Gender { f, m }
+import 'gender.dart';
+import 'scope.dart';
 
+@immutable
 class DefinitionEntrySense {
   final int? number;
   final int? subNumber;
   final Gender? gender;
-  final List<String> scopes;
+  final List<Scope> scopes;
+  final String? locution;
   final String? definition;
 
-  DefinitionEntrySense({
+  const DefinitionEntrySense({
     this.number,
     this.subNumber,
     this.gender,
-    this.scopes = const [],
+    this.scopes = const <Scope>[],
+    this.locution,
     this.definition,
   });
+
+  static int? parseNumber(Element element) {
+    if (element.localName == 'b') return int.tryParse(element.text.trim());
+
+    return null;
+  }
+
+  static int? parseSubNumber(Element element) {
+    if (element.localName == 'i') return int.tryParse(element.text.trim());
+
+    return null;
+  }
+
+  static String? parseLocution(Element element) {
+    final child = element.children.firstOrNull;
+    if (child?.className == 'bolditalic') return child!.innerHtml.trim();
+
+    return null;
+  }
+
+  static (String?, String?) parseDefinitionAndLocution(Element element) {
+    String? definition;
+    final textNode = element.nodes.lastOrNull;
+    if (textNode?.nodeType == Node.TEXT_NODE) {
+      final trimmedText = textNode!.text?.trim();
+      if (trimmedText?.isNotEmpty ?? false) definition = trimmedText;
+    }
+
+    return (definition, parseLocution(element));
+  }
 
   factory DefinitionEntrySense.fromElements(List<Element> elements) {
     int? number;
     int? subNumber;
     Gender? gender;
-    final scopes = <String>[];
+    final scopes = <Scope>[];
+    String? locution;
     String? definition;
 
     for (final element in elements) {
       if (element.localName != 'span') continue;
-
-      if (element.classes.contains('tagline')) {
-        gender = Gender.values.tryByName(element.text.substring(0, 1));
-        continue;
+      if (gender == null) {
+        gender = Gender.parse(element);
+        if (gender != null) continue;
+      }
+      if (definition == null) {
+        (definition, locution) =
+            DefinitionEntrySense.parseDefinitionAndLocution(element);
       }
 
       for (final child in element.children) {
-        switch (child.localName) {
-          case 'b':
-            number = int.tryParse(child.text.trim());
-            continue;
+        if (number == null) {
+          number = DefinitionEntrySense.parseNumber(child);
+          if (number != null) continue;
+        }
+        if (subNumber == null) {
+          subNumber = DefinitionEntrySense.parseSubNumber(child);
+          if (subNumber != null) continue;
+        }
 
-          case 'i':
-            subNumber = int.tryParse(child.text.trim());
-            continue;
-
-          case 'span':
-            if (child.classes.contains('tip')) {
-              scopes.add(child.text.trim());
-              continue;
-            }
+        final scope = Scope.parse(child);
+        if (scope != null) {
+          scopes.add(scope);
+          continue;
         }
       }
     }
@@ -57,16 +94,32 @@ class DefinitionEntrySense {
       subNumber: subNumber,
       gender: gender,
       scopes: scopes,
+      locution: locution,
       definition: definition,
     );
   }
 
   @override
   String toString() => [
-        if (number != null) number,
-        if (subNumber != null) subNumber,
-        if (gender != null) '${gender!.name}.',
-        scopes.join(' '),
-        if (definition != null) definition
-      ].join(' ');
+        'number: $number',
+        'subNumber: $subNumber',
+        'gender: $gender',
+        'scopes: $scopes',
+        'locution: $locution',
+        'definition: $definition',
+      ].join('\n');
+
+  @override
+  bool operator ==(Object other) =>
+      other is DefinitionEntrySense &&
+      number == other.number &&
+      subNumber == other.subNumber &&
+      gender == other.gender &&
+      listEquals(scopes, other.scopes) &&
+      locution == other.locution &&
+      definition == other.definition;
+
+  @override
+  int get hashCode =>
+      Object.hash(number, subNumber, gender, scopes, locution, definition);
 }
