@@ -4,16 +4,16 @@ import 'package:el_meu_diec/src/widgets/equipped_card.dart';
 import 'package:flutter/material.dart';
 
 class AutocompleteEntriesListView extends StatelessWidget {
-  final String? query;
+  final String query;
 
-  const AutocompleteEntriesListView({super.key, this.query});
+  const AutocompleteEntriesListView({super.key, required this.query});
 
   @override
   Widget build(BuildContext context) {
-    if (query == null) return const SizedBox();
+    if (query.isEmpty) return const SizedBox();
 
     return FutureBuilder<List<AutocompleteEntry>?>(
-      future: AutocompleteEntries.fetch(query!),
+      future: AutocompleteEntries.fetch(query),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return const SizedBox();
 
@@ -44,7 +44,7 @@ class AutocompleteEntriesListView extends StatelessWidget {
                 final autocompleteEntry = autocompleteEntries[index];
 
                 return AutocompleteEntryCard(
-                  query: query!,
+                  query: query,
                   word: autocompleteEntry.word,
                   isFavorite: true,
                   visits: 1,
