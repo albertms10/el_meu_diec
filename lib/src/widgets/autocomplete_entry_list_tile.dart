@@ -24,7 +24,7 @@ class AutocompleteEntryListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final playfairDisplayTextTheme =
-        GoogleFonts.playfairDisplayTextTheme().headline5!.copyWith(
+        GoogleFonts.playfairDisplayTextTheme().headlineSmall!.copyWith(
               color: theme.colorScheme.onPrimary,
               fontSize: 24,
             );

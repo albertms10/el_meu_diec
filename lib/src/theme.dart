@@ -13,8 +13,9 @@ const inputDecorationTheme = InputDecorationTheme(
   ),
 );
 
-final playfairDisplayTextTheme =
-    GoogleFonts.playfairDisplayTextTheme().headline5!.copyWith(fontSize: 24);
+final playfairDisplayTextTheme = GoogleFonts.playfairDisplayTextTheme()
+    .headlineSmall!
+    .copyWith(fontSize: 24);
 
 final lightThemeData = ThemeData.light().copyWith(
   useMaterial3: true,
