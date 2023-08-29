@@ -1,5 +1,9 @@
 # El meu DIEC
 
+![Analysis CI](https://github.com/albertms10/el_meu_diec/workflows/Analysis%20CI/badge.svg)
+[![Coverage Status](https://coveralls.io/repos/github/albertms10/el_meu_diec/badge.svg?branch=main)](https://coveralls.io/github/albertms10/el_meu_diec?branch=main)
+[![style: very good analysis](https://img.shields.io/badge/style-very_good_analysis-B22C89.svg)](https://pub.dev/packages/very_good_analysis)
+
 ## Screenshots
 
 ### Home screen
