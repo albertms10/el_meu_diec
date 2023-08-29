@@ -1,5 +1,5 @@
 import 'package:el_meu_diec/model.dart';
-import 'package:el_meu_diec/src/widgets/autocomplete_entry_card.dart';
+import 'package:el_meu_diec/src/widgets/autocomplete_entry_future_card.dart';
 import 'package:el_meu_diec/src/widgets/equipped_card.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +12,7 @@ class AutocompleteEntriesListView extends StatelessWidget {
   Widget build(BuildContext context) {
     if (query.isEmpty) return const SizedBox();
 
-    return FutureBuilder<List<AutocompleteEntry>?>(
+    return FutureBuilder(
       future: AutocompleteEntries.fetch(query),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return const SizedBox();
@@ -43,11 +43,10 @@ class AutocompleteEntriesListView extends StatelessWidget {
               itemBuilder: (context, index) {
                 final autocompleteEntry = autocompleteEntries[index];
 
-                return AutocompleteEntryCard(
+                return AutocompleteEntryFutureCard(
+                  id: autocompleteEntry.id,
                   query: query,
                   word: autocompleteEntry.word,
-                  isFavorite: true,
-                  visits: 1,
                 );
               },
             );
