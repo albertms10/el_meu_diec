@@ -1,67 +1,61 @@
 import 'package:el_meu_diec/src/theme.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class EquippedCard extends StatelessWidget {
   final Widget? title;
   final bool isFavorite;
   final int visits;
+  final bool isLoading;
+  final Widget? child;
 
   const EquippedCard({
     super.key,
     this.title,
     this.isFavorite = false,
     this.visits = 0,
+    this.isLoading = false,
+    this.child,
   });
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          return CupertinoContextMenu(
-            actions: const [SizedBox()],
-            child: Card(
-              elevation: 4,
-              surfaceTintColor: theme.colorScheme.primary,
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  top: 8,
-                  bottom: 12,
-                  right: 12,
-                  left: 12,
-                ),
-                child: Wrap(
-                  clipBehavior: Clip.hardEdge,
-                  children: [
-                    Wrap(
-                      direction: Axis.vertical,
-                      clipBehavior: Clip.hardEdge,
-                      children: [
-                        if (title != null)
-                          title!
-                        else
-                          const _Placeholder(width: 180, height: 20),
-                        const _Placeholder(width: 120),
-                        const _Placeholder(),
-                      ],
-                    ),
-                    if (visits > 0) _AutocompleteEntryVisits(visits: visits),
-                    const SizedBox(width: 4),
-                    if (isFavorite)
-                      Icon(
-                        Icons.star_rounded,
-                        color: playfairDisplayTextTheme.color!.withOpacity(0.4),
-                      ),
-                  ],
-                ),
-              ),
+    return Card(
+      elevation: 1,
+      surfaceTintColor: Colors.white,
+      child: Padding(
+        padding: const EdgeInsets.only(
+          top: 8,
+          bottom: 12,
+          right: 12,
+          left: 12,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                if (title != null)
+                  title!
+                else
+                  const _Placeholder(width: 180, height: 20),
+                const Spacer(),
+                if (visits > 0) _AutocompleteEntryVisits(visits: visits),
+                const SizedBox(width: 4),
+                if (isFavorite)
+                  Icon(
+                    Icons.star_rounded,
+                    color: playfairDisplayTextTheme.color!.withOpacity(0.4),
+                  ),
+              ],
             ),
-          );
-        },
+            const SizedBox(height: 12),
+            if (isLoading) ...[
+              const _Placeholder(width: 120),
+              const _Placeholder(),
+            ],
+            if (child != null) child!,
+          ],
+        ),
       ),
     );
   }
