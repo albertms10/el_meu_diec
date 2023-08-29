@@ -1,0 +1,56 @@
+name: Analysis CI
+
+on:
+  push:
+    branches: [main]
+
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+
+env:
+  FLUTTER_SDK_VERSION: "3.13.1"
+
+permissions:
+  contents: read
+
+jobs:
+  analyze:
+    permissions:
+      checks: write # for coverallsapp/github-action to create new checks
+      contents: read # for actions/checkout to fetch code
+    name: Analyze
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@b56e6a3d768b11aef1d4c73977caf6413c0d74c8 # v3
+
+      - name: Cache dependencies
+        uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3.3.1
+        id: cache
+        with:
+          path: /opt/hostedtoolcache/flutter
+          key: ${{ runner.os }}-pubspec-${{ env.FLUTTER_SDK_VERSION }}-${{ hashFiles('**/pubspec.lock') }}
+
+      - uses: subosito/flutter-action@48cafc24713cca54bbe03cdc3a423187d413aafa # v2.10.0
+        with:
+          flutter-version: ${{ env.FLUTTER_SDK_VERSION }}
+
+      - name: Verify formatting
+        run: dart format --output=none --set-exit-if-changed .
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Analyze project source
+        run: flutter analyze --no-pub --fatal-infos
+
+      - name: Run tests
+        run: flutter test test/main.dart --no-pub --coverage
+
+      - name: Upload Coveralls
+        uses: coverallsapp/github-action@c7885c00cb7ec0b8f9f5ff3f53cddb980f7a4412 # 2.2.0
+        continue-on-error: true
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
