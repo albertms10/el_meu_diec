@@ -38,7 +38,7 @@ jobs:
           flutter-version: ${{ env.FLUTTER_SDK_VERSION }}
 
       - name: Verify formatting
-        run: flutter format --output=none --set-exit-if-changed .
+        run: dart format --output=none --set-exit-if-changed .
 
       - name: Get dependencies
         run: flutter pub get
