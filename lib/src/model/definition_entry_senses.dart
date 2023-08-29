@@ -18,7 +18,7 @@ extension DefinitionEntrySenses on List<DefinitionEntrySense> {
           DefinitionEntrySense.fromElements(element),
       ];
 
-  static Future<List<DefinitionEntrySense>?> fetch(String id) async {
+  static Future<String?> fetch(String id) async {
     final response = await http.post(
       Uri.https('dlc.iec.cat', '/Results/Accepcio', {
         'id': id,
@@ -32,7 +32,11 @@ extension DefinitionEntrySenses on List<DefinitionEntrySense> {
     }
 
     final responseBody = json.decode(response.body) as Map<String, dynamic>;
-    final document = html.parse(responseBody['content']);
+    return responseBody['content'] as String;
+  }
+
+  static List<DefinitionEntrySense> parseHtml(String content) {
+    final document = html.parse(content);
     final body = document.getElementsByTagName('body').first;
 
     final definitions = <List<Element>>[];
