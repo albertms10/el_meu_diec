@@ -34,14 +34,14 @@ class AutocompleteEntryFutureCard extends StatelessWidget {
 
           case ConnectionState.active:
           case ConnectionState.done:
-            final definitionEntrySenses = snapshot.data!;
+            final senses = DefinitionEntrySenses.parseHtml(snapshot.data!);
 
             return AutocompleteEntryCard(
               query: query,
               word: word,
               isFavorite: true,
               visits: 1,
-              senses: definitionEntrySenses,
+              senses: senses,
             );
         }
       },
