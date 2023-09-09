@@ -25,6 +25,9 @@ final playfairDisplayTextTheme = GoogleFonts.playfairDisplayTextTheme()
     .headlineSmall!
     .copyWith(fontSize: 24);
 
+final notoSerifTextTheme =
+    GoogleFonts.notoSerifTextTheme().headlineSmall!.copyWith(fontSize: 16);
+
 final lightThemeData = ThemeData.light().copyWith(
   useMaterial3: true,
   colorScheme: _colorScheme,

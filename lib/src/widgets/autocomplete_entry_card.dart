@@ -30,18 +30,19 @@ class AutocompleteEntryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return EquippedCard(
+      height: 200,
       isLoading: isLoading,
       visits: visits,
       isFavorite: isFavorite,
-      title: RichText(
-        text: TextSpan(
+      title: Text.rich(
+        TextSpan(
           text: highlightedText,
           style: playfairDisplayTextTheme,
           children: [
             if (isIncomplete)
               TextSpan(
                 text: word.substring(query.length),
-                style: playfairDisplayTextTheme.copyWith(
+                style: TextStyle(
                   color: playfairDisplayTextTheme.color!.withOpacity(0.4),
                 ),
               ),
@@ -50,13 +51,21 @@ class AutocompleteEntryCard extends StatelessWidget {
       ),
       child: senses == null
           ? null
-          : Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                for (final sense in senses!)
-                  DefinitionEntrySenseLine(sense: sense),
-              ],
-            ),
+          : SizedBox(
+            child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  for (var i = 0; i < senses!.length; i++)
+                    DefinitionEntrySenseLine(
+                      sense: senses![i],
+                      interactive: false,
+                      isFirstNumber:
+                          i == 0 || senses![i - 1].number != senses![i].number,
+                    ),
+                ],
+              ),
+          ),
     );
   }
 }

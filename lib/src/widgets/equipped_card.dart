@@ -6,7 +6,9 @@ class EquippedCard extends StatelessWidget {
   final bool isFavorite;
   final int visits;
   final bool isLoading;
+  final double? height;
   final Widget? child;
+  final bool showOverflowPanel;
 
   const EquippedCard({
     super.key,
@@ -14,48 +16,74 @@ class EquippedCard extends StatelessWidget {
     this.isFavorite = false,
     this.visits = 0,
     this.isLoading = false,
+    this.height,
     this.child,
+    this.showOverflowPanel = true,
   });
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 1,
+      color: Colors.white,
       surfaceTintColor: Colors.white,
-      child: Padding(
-        padding: const EdgeInsets.only(
-          top: 8,
-          bottom: 12,
-          right: 12,
-          left: 12,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
+      child: Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          Container(
+            padding: const EdgeInsets.only(
+              top: 8,
+              bottom: 8,
+              right: 12,
+              left: 12,
+            ),
+            height: height,
+            child: Wrap(
+              clipBehavior: Clip.antiAlias,
               children: [
-                if (title != null)
-                  title!
-                else
-                  const _Placeholder(width: 180, height: 20),
-                const Spacer(),
-                if (visits > 0) _AutocompleteEntryVisits(visits: visits),
-                const SizedBox(width: 4),
-                if (isFavorite)
-                  Icon(
-                    Icons.star_rounded,
-                    color: playfairDisplayTextTheme.color!.withOpacity(0.4),
-                  ),
+                Row(
+                  children: [
+                    if (title != null)
+                      title!
+                    else
+                      const _Placeholder(width: 180, height: 20),
+                    const Spacer(),
+                    if (visits > 0) _AutocompleteEntryVisits(visits: visits),
+                    const SizedBox(width: 4),
+                    if (isFavorite)
+                      Icon(
+                        Icons.star_rounded,
+                        color: playfairDisplayTextTheme.color!.withOpacity(0.4),
+                      ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                if (isLoading) ...[
+                  const _Placeholder(width: 120),
+                  const _Placeholder(),
+                ],
+                if (child != null) child!,
               ],
             ),
-            const SizedBox(height: 12),
-            if (isLoading) ...[
-              const _Placeholder(width: 120),
-              const _Placeholder(),
-            ],
-            if (child != null) child!,
-          ],
-        ),
+          ),
+          if (showOverflowPanel)
+            ClipRRect(
+              borderRadius: const BorderRadius.all(Radius.circular(18)),
+              child: Container(
+                height: 32,
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Color(0x00ffffff),
+                      Colors.white,
+                    ],
+                    stops: [0, 0.75],
+                  ),
+                ),
+              ),
+            ),
+        ],
       ),
     );
   }
