@@ -27,6 +27,7 @@ class AutocompleteEntryFutureCard extends StatelessWidget {
 
           case ConnectionState.waiting:
             return AutocompleteEntryCard(
+              id: id,
               query: query,
               word: word,
               isLoading: true,
@@ -37,9 +38,9 @@ class AutocompleteEntryFutureCard extends StatelessWidget {
             final senses = DefinitionEntrySenses.parseHtml(snapshot.data!);
 
             return AutocompleteEntryCard(
+              id: id,
               query: query,
               word: word,
-              isFavorite: true,
               senses: senses,
             );
         }

@@ -1,20 +1,19 @@
-import 'package:el_meu_diec/src/theme.dart';
 import 'package:flutter/material.dart';
 
 class EquippedCard extends StatelessWidget {
   final Widget? title;
-  final bool isFavorite;
   final bool isLoading;
   final double maxHeight;
   final Widget? child;
+  final List<Widget>? actions;
 
   const EquippedCard({
     super.key,
     this.title,
-    this.isFavorite = false,
     this.isLoading = false,
     this.maxHeight = double.infinity,
     this.child,
+    this.actions,
   });
 
   @override
@@ -30,11 +29,7 @@ class EquippedCard extends StatelessWidget {
               title!,
             const Spacer(),
             const SizedBox(width: 4),
-            if (isFavorite)
-              Icon(
-                Icons.star_rounded,
-                color: playfairDisplayTextTheme.color!.withOpacity(0.4),
-              ),
+            if (actions != null) ...actions!,
           ],
         ),
         const SizedBox(height: 12),
