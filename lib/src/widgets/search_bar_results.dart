@@ -21,6 +21,13 @@ class _SearchBarResultsState extends State<SearchBarResults> {
     super.dispose();
   }
 
+  void _onChanged(String value) {
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      _query.value = value;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -58,12 +65,7 @@ class _SearchBarResultsState extends State<SearchBarResults> {
                   child: Icon(Icons.search, color: Colors.grey),
                 ),
               ),
-              onChanged: (value) async {
-                if (_debounce?.isActive ?? false) _debounce!.cancel();
-                _debounce = Timer(const Duration(milliseconds: 500), () {
-                  _query.value = value;
-                });
-              },
+              onChanged: _onChanged,
             ),
           ),
         ),
