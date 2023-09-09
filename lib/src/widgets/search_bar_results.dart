@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:el_meu_diec/src/theme.dart';
 import 'package:el_meu_diec/src/widgets/autocomplete_entries_list_view.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +13,20 @@ class SearchBarResults extends StatefulWidget {
 
 class _SearchBarResultsState extends State<SearchBarResults> {
   final ValueNotifier<String> _query = ValueNotifier<String>('');
+  Timer? _debounce;
+
+  @override
+  void dispose() {
+    _debounce?.cancel();
+    super.dispose();
+  }
+
+  void _onChanged(String value) {
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      _query.value = value;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,9 +65,7 @@ class _SearchBarResultsState extends State<SearchBarResults> {
                   child: Icon(Icons.search, color: Colors.grey),
                 ),
               ),
-              onChanged: (value) {
-                _query.value = value;
-              },
+              onChanged: _onChanged,
             ),
           ),
         ),
