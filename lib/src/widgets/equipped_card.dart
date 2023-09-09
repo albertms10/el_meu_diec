@@ -4,21 +4,58 @@ import 'package:flutter/material.dart';
 class EquippedCard extends StatelessWidget {
   final Widget? title;
   final bool isFavorite;
-  final int visits;
   final bool isLoading;
-  final double? height;
+  final double maxHeight;
   final Widget? child;
-  final bool showOverflowPanel;
 
   const EquippedCard({
     super.key,
     this.title,
     this.isFavorite = false,
-    this.visits = 0,
     this.isLoading = false,
-    this.height,
+    this.maxHeight = double.infinity,
     this.child,
-    this.showOverflowPanel = true,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return _EquippedCardBody(
+      maxHeight: maxHeight,
+      children: [
+        Row(
+          children: [
+            if (isLoading)
+              const _Placeholder(width: 180, height: 20)
+            else if (title != null)
+              title!,
+            const Spacer(),
+            const SizedBox(width: 4),
+            if (isFavorite)
+              Icon(
+                Icons.star_rounded,
+                color: playfairDisplayTextTheme.color!.withOpacity(0.4),
+              ),
+          ],
+        ),
+        const SizedBox(height: 12),
+        if (isLoading) ...[
+          const _Placeholder(width: 120),
+          const _Placeholder(),
+        ],
+        if (child != null) child!,
+      ],
+    );
+  }
+}
+
+class _EquippedCardBody extends StatelessWidget {
+  final double maxHeight;
+  final List<Widget> children;
+
+  const _EquippedCardBody({
+    super.key,
+    this.maxHeight = double.infinity,
+    required this.children,
   });
 
   @override
@@ -29,90 +66,40 @@ class EquippedCard extends StatelessWidget {
       child: Stack(
         alignment: Alignment.bottomCenter,
         children: [
-          Container(
-            padding: const EdgeInsets.only(
-              top: 8,
-              bottom: 8,
-              right: 12,
-              left: 12,
-            ),
-            height: height,
-            child: Wrap(
-              clipBehavior: Clip.antiAlias,
-              children: [
-                Row(
-                  children: [
-                    if (title != null)
-                      title!
-                    else
-                      const _Placeholder(width: 180, height: 20),
-                    const Spacer(),
-                    if (visits > 0) _AutocompleteEntryVisits(visits: visits),
-                    const SizedBox(width: 4),
-                    if (isFavorite)
-                      Icon(
-                        Icons.star_rounded,
-                        color: playfairDisplayTextTheme.color!.withOpacity(0.4),
-                      ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                if (isLoading) ...[
-                  const _Placeholder(width: 120),
-                  const _Placeholder(),
-                ],
-                if (child != null) child!,
-              ],
+          ConstrainedBox(
+            constraints: BoxConstraints(maxHeight: maxHeight),
+            child: Padding(
+              padding: const EdgeInsets.only(
+                top: 8,
+                bottom: 8,
+                right: 12,
+                left: 12,
+              ),
+              child: Wrap(
+                clipBehavior: Clip.antiAlias,
+                children: children,
+              ),
             ),
           ),
-          if (showOverflowPanel)
-            ClipRRect(
-              borderRadius: const BorderRadius.all(Radius.circular(18)),
-              child: Container(
-                height: 32,
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Color(0x00ffffff),
-                      Colors.white,
-                    ],
-                    stops: [0, 0.75],
-                  ),
+          ClipRRect(
+            borderRadius: const BorderRadius.all(Radius.circular(18)),
+            child: Container(
+              height: 32,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Color(0x00ffffff),
+                    Colors.white,
+                  ],
+                  stops: [0, 0.75],
                 ),
               ),
             ),
+          ),
         ],
       ),
-    );
-  }
-}
-
-class _AutocompleteEntryVisits extends StatelessWidget {
-  final int visits;
-
-  const _AutocompleteEntryVisits({super.key, this.visits = 0});
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final color = theme.colorScheme.onBackground;
-
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          '$visits',
-          style: TextStyle(color: color.withOpacity(0.6)),
-        ),
-        const SizedBox(width: 4),
-        Icon(
-          Icons.remove_red_eye_rounded,
-          size: 18,
-          color: color.withOpacity(0.45),
-        ),
-      ],
     );
   }
 }

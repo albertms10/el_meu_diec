@@ -41,7 +41,7 @@ class _SearchBarResultsState extends State<SearchBarResults> {
             ),
             child: TextFormField(
               autocorrect: false,
-              style: const TextStyle(fontSize: 18),
+              style: const TextStyle(fontSize: 18, color: Colors.black),
               decoration: const InputDecoration(
                 hintText: 'Cerca',
                 suffixIcon: Padding(

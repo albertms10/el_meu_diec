@@ -8,7 +8,6 @@ class AutocompleteEntryCard extends StatelessWidget {
   final String query;
   final String word;
   final bool isFavorite;
-  final int visits;
   final List<DefinitionEntrySense>? senses;
   final bool isLoading;
 
@@ -17,7 +16,6 @@ class AutocompleteEntryCard extends StatelessWidget {
     required this.query,
     required this.word,
     this.isFavorite = false,
-    this.visits = 0,
     this.senses,
     this.isLoading = false,
   });
@@ -30,9 +28,8 @@ class AutocompleteEntryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return EquippedCard(
-      height: 200,
+      maxHeight: 150,
       isLoading: isLoading,
-      visits: visits,
       isFavorite: isFavorite,
       title: Text.rich(
         TextSpan(

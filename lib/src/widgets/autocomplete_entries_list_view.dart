@@ -25,10 +25,10 @@ class AutocompleteEntriesListView extends StatelessWidget {
             return ListView(
               padding: const EdgeInsets.symmetric(vertical: 30),
               children: const [
-                EquippedCard(),
-                EquippedCard(),
-                EquippedCard(),
-                EquippedCard(),
+                EquippedCard(isLoading: true),
+                EquippedCard(isLoading: true),
+                EquippedCard(isLoading: true),
+                EquippedCard(isLoading: true),
               ],
             );
 

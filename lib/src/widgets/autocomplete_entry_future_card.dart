@@ -40,7 +40,6 @@ class AutocompleteEntryFutureCard extends StatelessWidget {
               query: query,
               word: word,
               isFavorite: true,
-              visits: 1,
               senses: senses,
             );
         }
