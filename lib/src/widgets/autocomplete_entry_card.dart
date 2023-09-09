@@ -52,7 +52,7 @@ class AutocompleteEntryCard extends StatelessWidget {
       child: senses == null
           ? null
           : SizedBox(
-            child: Column(
+              child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -65,7 +65,7 @@ class AutocompleteEntryCard extends StatelessWidget {
                     ),
                 ],
               ),
-          ),
+            ),
     );
   }
 }

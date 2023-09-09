@@ -20,7 +20,7 @@ class DefinitionEntrySenseLine extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final proportionalFiguresTextStyle = notoSerifTextTheme.copyWith(
-      fontFeatures: [const FontFeature.proportionalFigures()],
+      fontFeatures: const [FontFeature.proportionalFigures()],
     );
 
     return Padding(
