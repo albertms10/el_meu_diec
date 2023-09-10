@@ -4,9 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 final _colorScheme = ColorScheme.fromSeed(seedColor: Colors.red);
 const borderRadius = BorderRadius.all(Radius.circular(30));
 
-final defaultInputBorder = OutlineInputBorder(
+const defaultInputBorder = OutlineInputBorder(
   borderRadius: borderRadius,
-  borderSide: BorderSide(color: _colorScheme.primary, width: 2),
+  borderSide: BorderSide.none,
 );
 
 final inputDecorationTheme = InputDecorationTheme(
@@ -15,10 +15,10 @@ final inputDecorationTheme = InputDecorationTheme(
   fillColor: Colors.white,
   contentPadding: const EdgeInsets.all(20),
   border: defaultInputBorder,
-  enabledBorder: defaultInputBorder.copyWith(
-    borderSide: const BorderSide(color: Colors.grey),
+  enabledBorder: defaultInputBorder,
+  focusedBorder: defaultInputBorder.copyWith(
+    borderSide: BorderSide(color: _colorScheme.primary, width: 2),
   ),
-  focusedBorder: defaultInputBorder,
 );
 
 final playfairDisplayTextTheme = GoogleFonts.playfairDisplayTextTheme()

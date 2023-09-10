@@ -82,10 +82,21 @@ class _BookmarkButton extends StatelessWidget {
         .toggleBookmark(id);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(
-          bookmarked
-              ? 'S’ha afegit $word als marcadors.'
-              : 'S’ha eliminat $word dels marcadors.',
+        content: Text.rich(
+          TextSpan(
+            children: [
+              TextSpan(
+                text: bookmarked ? 'S’ha afegit ' : 'S’ha eliminat ',
+              ),
+              TextSpan(
+                text: word,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              TextSpan(
+                text: bookmarked ? ' als marcadors.' : ' dels marcadors.',
+              ),
+            ],
+          ),
         ),
         duration: const Duration(seconds: 2),
       ),

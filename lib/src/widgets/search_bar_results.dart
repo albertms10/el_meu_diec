@@ -44,14 +44,14 @@ class _SearchBarResultsState extends State<SearchBarResults> {
         Align(
           alignment: Alignment.bottomCenter,
           child: Container(
-            margin: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+            margin: const EdgeInsets.only(left: 16, right: 16, bottom: 20),
             decoration: const BoxDecoration(
               borderRadius: borderRadius,
               boxShadow: [
                 BoxShadow(
                   blurRadius: 20,
-                  spreadRadius: 1,
-                  color: Color(0x10000000),
+                  spreadRadius: 2,
+                  color: Color(0x40000000),
                 ),
               ],
             ),

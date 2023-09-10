@@ -12,7 +12,6 @@ class ScopeChip extends StatelessWidget {
       SnackBar(
         content: Text(scope.label),
         duration: const Duration(seconds: 2),
-        behavior: SnackBarBehavior.floating,
       ),
     );
   }
