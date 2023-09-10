@@ -1,6 +1,6 @@
 {
-    "name": "el_meu_diec",
-    "short_name": "el_meu_diec",
+    "name": "El meu DIEC",
+    "short_name": "El meu DIEC",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
