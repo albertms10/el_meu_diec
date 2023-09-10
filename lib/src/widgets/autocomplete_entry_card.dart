@@ -1,5 +1,4 @@
 import 'package:el_meu_diec/model.dart';
-import 'package:el_meu_diec/src/model/bookmark_collection.dart';
 import 'package:el_meu_diec/src/theme.dart';
 import 'package:el_meu_diec/src/widgets/definition_entry_sense_line.dart';
 import 'package:el_meu_diec/src/widgets/equipped_card.dart';
@@ -7,25 +6,21 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AutocompleteEntryCard extends StatelessWidget {
-  final String id;
   final String query;
-  final String word;
-  final List<DefinitionEntrySense>? senses;
+  final Word word;
   final bool isLoading;
 
   const AutocompleteEntryCard({
     super.key,
-    required this.id,
     required this.query,
     required this.word,
-    this.senses,
     this.isLoading = false,
   });
 
-  bool get isIncomplete => word.length > query.length;
+  bool get isIncomplete => word.word.length > query.length;
 
   String get highlightedText =>
-      isIncomplete ? word.substring(0, query.length) : word;
+      isIncomplete ? word.word.substring(0, query.length) : word.word;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +28,7 @@ class AutocompleteEntryCard extends StatelessWidget {
       maxHeight: 150,
       isLoading: isLoading,
       actions: [
-        if (!isLoading) _BookmarkButton(id: id, word: word),
+        if (!isLoading) _BookmarkButton(word: word),
       ],
       title: Text.rich(
         TextSpan(
@@ -42,7 +37,7 @@ class AutocompleteEntryCard extends StatelessWidget {
           children: [
             if (isIncomplete)
               TextSpan(
-                text: word.substring(query.length),
+                text: word.word.substring(query.length),
                 style: TextStyle(
                   color: playfairDisplayTextTheme.color!.withOpacity(0.4),
                 ),
@@ -50,19 +45,19 @@ class AutocompleteEntryCard extends StatelessWidget {
           ],
         ),
       ),
-      child: senses == null
+      child: word.senses == null
           ? null
           : SizedBox(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  for (var i = 0; i < senses!.length; i++)
+                  for (var i = 0; i < word.senses!.length; i++)
                     DefinitionEntrySenseLine(
-                      sense: senses![i],
+                      sense: word.senses![i],
                       interactive: false,
-                      isFirstNumber:
-                          i == 0 || senses![i - 1].number != senses![i].number,
+                      isFirstNumber: i == 0 ||
+                          word.senses![i - 1].number != word.senses![i].number,
                     ),
                 ],
               ),
@@ -72,14 +67,13 @@ class AutocompleteEntryCard extends StatelessWidget {
 }
 
 class _BookmarkButton extends StatelessWidget {
-  final String id;
-  final String word;
+  final Word word;
 
-  const _BookmarkButton({super.key, required this.id, required this.word});
+  const _BookmarkButton({super.key, required this.word});
 
   void _onPressed(BuildContext context) {
     final bookmarked = Provider.of<BookmarkCollection>(context, listen: false)
-        .toggleBookmark(id);
+        .toggleBookmark(word.id);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text.rich(
@@ -89,7 +83,7 @@ class _BookmarkButton extends StatelessWidget {
                 text: bookmarked ? 'S’ha afegit ' : 'S’ha eliminat ',
               ),
               TextSpan(
-                text: word,
+                text: word.word,
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
               TextSpan(
@@ -108,7 +102,7 @@ class _BookmarkButton extends StatelessWidget {
     return IconButton(
       color: Theme.of(context).colorScheme.primary,
       icon: Icon(
-        Provider.of<BookmarkCollection>(context).isBookmarked(id)
+        Provider.of<BookmarkCollection>(context).isBookmarked(word.id)
             ? Icons.bookmark
             : Icons.bookmark_outline,
       ),

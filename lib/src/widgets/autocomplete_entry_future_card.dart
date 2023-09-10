@@ -1,23 +1,29 @@
 import 'package:el_meu_diec/model.dart';
 import 'package:el_meu_diec/src/widgets/autocomplete_entry_card.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AutocompleteEntryFutureCard extends StatelessWidget {
-  final String id;
+  final AutocompleteEntry autocompleteEntry;
   final String query;
-  final String word;
 
   const AutocompleteEntryFutureCard({
     super.key,
-    required this.id,
+    required this.autocompleteEntry,
     required this.query,
-    required this.word,
   });
+
+  Future<Word> fetchWordFromCache(BuildContext context) async =>
+      Provider.of<WordCache>(context, listen: false)
+          .wordFromId(autocompleteEntry.id) ??
+      autocompleteEntry.toWord(
+        senses: await DefinitionEntrySenses.fetch(autocompleteEntry.id),
+      );
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: DefinitionEntrySenses.fetch(id),
+    return FutureBuilder<Word>(
+      future: fetchWordFromCache(context),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return const SizedBox();
 
@@ -27,22 +33,17 @@ class AutocompleteEntryFutureCard extends StatelessWidget {
 
           case ConnectionState.waiting:
             return AutocompleteEntryCard(
-              id: id,
               query: query,
-              word: word,
+              word: autocompleteEntry.toWord(),
               isLoading: true,
             );
 
           case ConnectionState.active:
           case ConnectionState.done:
-            final senses = DefinitionEntrySenses.parseHtml(snapshot.data!);
+            final word = snapshot.data!;
+            Provider.of<WordCache>(context, listen: false).addWord(word);
 
-            return AutocompleteEntryCard(
-              id: id,
-              query: query,
-              word: word,
-              senses: senses,
-            );
+            return AutocompleteEntryCard(query: query, word: word);
         }
       },
     );

@@ -18,7 +18,7 @@ extension AutocompleteEntries on List<AutocompleteEntry> {
         '/Results/CompleteEntradaText',
         {'EntradaText': query, 'OperEntrada': '1'},
       ),
-      headers: {'Content-Type': 'application/json'},
+      headers: const {'Content-Type': 'application/json'},
     );
 
     if (response.statusCode != 200) {

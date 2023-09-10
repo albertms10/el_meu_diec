@@ -41,12 +41,9 @@ class AutocompleteEntriesListView extends StatelessWidget {
               shrinkWrap: true,
               padding: const EdgeInsets.symmetric(vertical: 30),
               itemBuilder: (context, index) {
-                final autocompleteEntry = autocompleteEntries[index];
-
                 return AutocompleteEntryFutureCard(
-                  id: autocompleteEntry.id,
+                  autocompleteEntry: autocompleteEntries[index],
                   query: query,
-                  word: autocompleteEntry.word,
                 );
               },
             );

@@ -1,4 +1,4 @@
-import 'package:el_meu_diec/src/model/bookmark_collection.dart';
+import 'package:el_meu_diec/model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -22,6 +22,7 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => BookmarkCollection({})),
+        ChangeNotifierProvider(create: (context) => WordCache({})),
       ],
       child: MyApp(settingsController: settingsController),
     ),
