@@ -100,13 +100,17 @@ class _BookmarkButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isBookmarked =
+        Provider.of<BookmarkCollection>(context).isBookmarked(word.id);
+
     return IconButton(
       color: Theme.of(context).colorScheme.primary,
       icon: Icon(
-        Provider.of<BookmarkCollection>(context).isBookmarked(word.id)
-            ? Icons.bookmark
-            : Icons.bookmark_outline,
+        isBookmarked ? Icons.bookmark : Icons.bookmark_outline,
       ),
+      enableFeedback: true,
+      tooltip:
+          isBookmarked ? 'Elimina dels marcadors' : 'Afegeix als marcadors',
       onPressed: () => _onPressed(context),
     );
   }
