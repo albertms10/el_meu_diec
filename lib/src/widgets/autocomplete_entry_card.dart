@@ -1,4 +1,5 @@
 import 'package:el_meu_diec/model.dart';
+import 'package:el_meu_diec/src/constants.dart';
 import 'package:el_meu_diec/src/theme.dart';
 import 'package:el_meu_diec/src/widgets/definition_entry_sense_line.dart';
 import 'package:el_meu_diec/src/widgets/equipped_card.dart';
@@ -25,7 +26,7 @@ class AutocompleteEntryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return EquippedCard(
-      maxHeight: 150,
+      height: autocompleteEntryCardHeight,
       isLoading: isLoading,
       actions: [
         if (!isLoading) _BookmarkButton(word: word),
