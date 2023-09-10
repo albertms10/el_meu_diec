@@ -9,13 +9,9 @@ class WordCache with ChangeNotifier {
   /// Creates a new [WordCache] from [_words].
   WordCache(this._words);
 
-  /// Returns the [Word] from [id].
+  /// Returns [Word] from [id], if cached.
   Word? wordFromId(String id) => _words[id];
 
-  /// Caches [Word] and returns `true` as a result.
-  bool addWord(Word word) {
-    _words.addAll({word.id: word});
-
-    return true;
-  }
+  /// Adds [Word] to cache.
+  void addWord(Word word) => _words.addAll({word.id: word});
 }
