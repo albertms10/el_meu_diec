@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 
 class EquippedCard extends StatelessWidget {
   final Widget? title;
+  final double? height;
   final bool isLoading;
-  final double maxHeight;
   final Widget? child;
   final List<Widget>? actions;
 
   const EquippedCard({
     super.key,
     this.title,
+    this.height,
     this.isLoading = false,
-    this.maxHeight = double.infinity,
     this.child,
     this.actions,
   });
@@ -19,9 +19,10 @@ class EquippedCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _EquippedCardBody(
-      maxHeight: maxHeight,
+      height: height,
       children: [
         Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (isLoading)
               const _Placeholder(width: 180, height: 20)
@@ -44,14 +45,10 @@ class EquippedCard extends StatelessWidget {
 }
 
 class _EquippedCardBody extends StatelessWidget {
-  final double maxHeight;
+  final double? height;
   final List<Widget> children;
 
-  const _EquippedCardBody({
-    super.key,
-    this.maxHeight = double.infinity,
-    required this.children,
-  });
+  const _EquippedCardBody({super.key, this.height, required this.children});
 
   @override
   Widget build(BuildContext context) {
@@ -61,19 +58,17 @@ class _EquippedCardBody extends StatelessWidget {
       child: Stack(
         alignment: Alignment.bottomCenter,
         children: [
-          ConstrainedBox(
-            constraints: BoxConstraints(maxHeight: maxHeight),
-            child: Padding(
-              padding: const EdgeInsets.only(
-                top: 8,
-                bottom: 8,
-                right: 12,
-                left: 12,
-              ),
-              child: Wrap(
-                clipBehavior: Clip.antiAlias,
-                children: children,
-              ),
+          Container(
+            height: height,
+            padding: const EdgeInsets.only(
+              top: 8,
+              bottom: 8,
+              right: 12,
+              left: 12,
+            ),
+            child: Wrap(
+              clipBehavior: Clip.antiAlias,
+              children: children,
             ),
           ),
           ClipRRect(

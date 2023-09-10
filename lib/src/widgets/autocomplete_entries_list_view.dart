@@ -1,4 +1,5 @@
 import 'package:el_meu_diec/model.dart';
+import 'package:el_meu_diec/src/constants.dart';
 import 'package:el_meu_diec/src/widgets/autocomplete_entry_future_card.dart';
 import 'package:el_meu_diec/src/widgets/equipped_card.dart';
 import 'package:flutter/material.dart';
@@ -24,11 +25,24 @@ class AutocompleteEntriesListView extends StatelessWidget {
           case ConnectionState.waiting:
             return ListView(
               padding: const EdgeInsets.symmetric(vertical: 30),
+              itemExtent: autocompleteEntryCardHeight,
               children: const [
-                EquippedCard(isLoading: true),
-                EquippedCard(isLoading: true),
-                EquippedCard(isLoading: true),
-                EquippedCard(isLoading: true),
+                EquippedCard(
+                  height: autocompleteEntryCardHeight,
+                  isLoading: true,
+                ),
+                EquippedCard(
+                  height: autocompleteEntryCardHeight,
+                  isLoading: true,
+                ),
+                EquippedCard(
+                  height: autocompleteEntryCardHeight,
+                  isLoading: true,
+                ),
+                EquippedCard(
+                  height: autocompleteEntryCardHeight,
+                  isLoading: true,
+                ),
               ],
             );
 
@@ -40,6 +54,7 @@ class AutocompleteEntriesListView extends StatelessWidget {
               itemCount: autocompleteEntries.length + 1,
               semanticChildCount: autocompleteEntries.length,
               shrinkWrap: true,
+              itemExtent: autocompleteEntryCardHeight,
               padding: const EdgeInsetsDirectional.only(
                 top: 30,
                 bottom: 120,

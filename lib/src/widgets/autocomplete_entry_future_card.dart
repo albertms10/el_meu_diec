@@ -25,8 +25,6 @@ class AutocompleteEntryFutureCard extends StatelessWidget {
     return FutureBuilder<Word>(
       future: fetchWordFromCache(context),
       builder: (context, snapshot) {
-        if (!snapshot.hasData) return const SizedBox();
-
         switch (snapshot.connectionState) {
           case ConnectionState.none:
             return const SizedBox();
