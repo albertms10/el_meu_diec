@@ -44,9 +44,8 @@ class AutocompleteEntriesListView extends StatelessWidget {
                 final autocompleteEntry = autocompleteEntries[index];
 
                 return AutocompleteEntryFutureCard(
-                  id: autocompleteEntry.id,
+                  autocompleteEntry: autocompleteEntries[index],
                   query: query,
-                  word: autocompleteEntry.word,
                 );
               },
             );

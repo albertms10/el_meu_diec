@@ -1,5 +1,8 @@
 import 'package:flutter/foundation.dart';
 
+import 'definition_entry_sense.dart';
+import 'word.dart';
+
 @immutable
 class AutocompleteEntry {
   final String id;
@@ -10,4 +13,10 @@ class AutocompleteEntry {
   AutocompleteEntry.fromJson(Map<String, dynamic> other)
       : id = other['id'] as String,
         word = other['word'] as String;
+
+  Word toWord({List<DefinitionEntrySense>? senses}) => Word(
+        id: id,
+        word: word,
+        senses: senses,
+      );
 }
