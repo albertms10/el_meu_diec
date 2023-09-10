@@ -37,10 +37,25 @@ class AutocompleteEntriesListView extends StatelessWidget {
             final autocompleteEntries = snapshot.data!;
 
             return ListView.builder(
-              itemCount: autocompleteEntries.length,
+              itemCount: autocompleteEntries.length + 1,
+              semanticChildCount: autocompleteEntries.length,
               shrinkWrap: true,
-              padding: const EdgeInsets.symmetric(vertical: 30),
+              padding: const EdgeInsetsDirectional.only(
+                top: 30,
+                bottom: 120,
+              ),
               itemBuilder: (context, index) {
+                if (index == autocompleteEntries.length) {
+                  return Padding(
+                    padding: const EdgeInsetsDirectional.all(32),
+                    child: Text(
+                      '${autocompleteEntries.length} resultats',
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.labelLarge,
+                    ),
+                  );
+                }
+
                 return AutocompleteEntryFutureCard(
                   autocompleteEntry: autocompleteEntries[index],
                   query: query,
