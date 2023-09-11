@@ -13,6 +13,8 @@ class AutocompleteEntriesListView extends StatelessWidget {
   Widget build(BuildContext context) {
     if (query.isEmpty) return const SizedBox();
 
+    final theme = Theme.of(context);
+
     return FutureBuilder(
       future: AutocompleteEntries.fetch(query),
       builder: (context, snapshot) {
@@ -50,32 +52,31 @@ class AutocompleteEntriesListView extends StatelessWidget {
           case ConnectionState.done:
             final autocompleteEntries = snapshot.data!;
 
-            return ListView.builder(
-              itemCount: autocompleteEntries.length + 1,
-              semanticChildCount: autocompleteEntries.length,
-              shrinkWrap: true,
-              itemExtent: autocompleteEntryCardHeight,
-              padding: const EdgeInsetsDirectional.only(
-                top: 30,
-                bottom: 120,
-              ),
-              itemBuilder: (context, index) {
-                if (index == autocompleteEntries.length) {
-                  return Padding(
-                    padding: const EdgeInsetsDirectional.all(32),
-                    child: Text(
-                      '${autocompleteEntries.length} resultats',
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.labelLarge,
-                    ),
-                  );
-                }
+            return Scrollbar(
+              child: ListView.builder(
+                itemCount: autocompleteEntries.length + 1,
+                semanticChildCount: autocompleteEntries.length,
+                shrinkWrap: true,
+                itemExtent: autocompleteEntryCardHeight,
+                padding: const EdgeInsetsDirectional.only(bottom: 120),
+                itemBuilder: (context, index) {
+                  if (index == autocompleteEntries.length) {
+                    return Padding(
+                      padding: const EdgeInsetsDirectional.all(32),
+                      child: Text(
+                        '${autocompleteEntries.length} resultats',
+                        textAlign: TextAlign.center,
+                        style: theme.textTheme.labelLarge,
+                      ),
+                    );
+                  }
 
-                return AutocompleteEntryFutureCard(
-                  autocompleteEntry: autocompleteEntries[index],
-                  query: query,
-                );
-              },
+                  return AutocompleteEntryFutureCard(
+                    autocompleteEntry: autocompleteEntries[index],
+                    query: query,
+                  );
+                },
+              ),
             );
         }
       },
