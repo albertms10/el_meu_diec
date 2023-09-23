@@ -24,7 +24,7 @@ class DefinitionEntrySenseLine extends StatelessWidget {
     );
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsetsDirectional.only(bottom: 8),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.baseline,
         textBaseline: TextBaseline.alphabetic,

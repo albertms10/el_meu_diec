@@ -13,7 +13,7 @@ final inputDecorationTheme = InputDecorationTheme(
   hintStyle: const TextStyle(fontSize: 18, color: Colors.grey),
   filled: true,
   fillColor: Colors.white,
-  contentPadding: const EdgeInsets.all(20),
+  contentPadding: const EdgeInsetsDirectional.all(20),
   border: defaultInputBorder,
   enabledBorder: defaultInputBorder,
   focusedBorder: defaultInputBorder.copyWith(

@@ -1,44 +1,41 @@
 import 'package:flutter/material.dart';
 
 class EquippedCard extends StatelessWidget {
-  final Widget? title;
   final double? height;
   final bool isLoading;
-  final Widget? child;
+  final VoidCallback? onTap;
   final List<Widget>? actions;
+  final Widget? child;
 
   const EquippedCard({
     super.key,
-    this.title,
     this.height,
     this.isLoading = false,
-    this.child,
+    this.onTap,
     this.actions,
+    this.child,
   });
 
   @override
   Widget build(BuildContext context) {
     return _EquippedCardBody(
       height: height,
+      onTap: onTap,
       children: [
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (isLoading)
-              const _Placeholder(width: 180, height: 20)
-            else if (title != null)
-              title!,
-            const Spacer(),
-            const SizedBox(width: 4),
-            if (actions != null) ...actions!,
-          ],
-        ),
         const SizedBox(height: 12),
-        if (isLoading) ...[
-          const _Placeholder(width: 120),
-          const _Placeholder(),
-        ],
-        if (child != null) child!,
+        if (isLoading)
+          const Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // To occupy the entire column width.
+              SizedBox(width: double.infinity),
+              _Placeholder(width: 180, height: 20),
+              _Placeholder(width: 120),
+              _Placeholder(),
+            ],
+          )
+        else if (child != null)
+          child!,
       ],
     );
   }
@@ -46,49 +43,53 @@ class EquippedCard extends StatelessWidget {
 
 class _EquippedCardBody extends StatelessWidget {
   final double? height;
+  final VoidCallback? onTap;
   final List<Widget> children;
 
-  const _EquippedCardBody({super.key, this.height, required this.children});
+  const _EquippedCardBody({
+    super.key,
+    this.height,
+    this.onTap,
+    required this.children,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: Colors.white,
-      surfaceTintColor: Colors.white,
-      child: Stack(
-        alignment: Alignment.bottomCenter,
-        children: [
-          Container(
-            height: height,
-            padding: const EdgeInsets.only(
-              top: 8,
-              bottom: 8,
-              right: 12,
-              left: 12,
+    return InkWell(
+      onTap: onTap,
+      child: Card(
+        color: Colors.white,
+        surfaceTintColor: Colors.white,
+        child: Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
+            Container(
+              height: height,
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              child: Wrap(
+                clipBehavior: Clip.antiAlias,
+                children: children,
+              ),
             ),
-            child: Wrap(
-              clipBehavior: Clip.antiAlias,
-              children: children,
-            ),
-          ),
-          ClipRRect(
-            borderRadius: const BorderRadius.all(Radius.circular(18)),
-            child: Container(
-              height: 32,
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Color(0x00ffffff),
-                    Colors.white,
-                  ],
-                  stops: [0, 0.75],
+            ClipRRect(
+              borderRadius: const BorderRadius.all(Radius.circular(18)),
+              child: Container(
+                height: 32,
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Color(0x00ffffff),
+                      Colors.white,
+                    ],
+                    stops: [0, 0.75],
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
