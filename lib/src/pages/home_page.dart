@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:el_meu_diec/model.dart';
 import 'package:el_meu_diec/src/widgets/autocomplete_entry_card.dart';
@@ -20,7 +21,14 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const Text('El meu DIEC'),
+        title: const Text(
+          'El meu DIEC',
+          style: TextStyle(
+            fontVariations: [
+              FontVariation('wght', 600),
+            ],
+          ),
+        ),
         backgroundColor: backgroundColor,
         surfaceTintColor: backgroundColor,
         shadowColor: backgroundColor,

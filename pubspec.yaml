@@ -16,7 +16,6 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_svg: ^2.0.7
-  google_fonts: ^6.1.0
   html: ^0.15.4
   http: ^1.1.0
   modal_bottom_sheet: ^3.0.0-pre
@@ -36,3 +35,10 @@ flutter:
   assets:
     # Add assets from the images directory to the application.
     - assets/images/
+
+  fonts:
+    - family: PlusJakartaSans
+      fonts:
+        - asset: assets/fonts/plus_jakarta_sans/PlusJakartaSans-VariableFont_wght.ttf
+        - asset: assets/fonts/plus_jakarta_sans/PlusJakartaSans-Italic-VariableFont_wght.ttf
+          style: italic
