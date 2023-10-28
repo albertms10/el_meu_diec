@@ -36,3 +36,10 @@ flutter:
   assets:
     # Add assets from the images directory to the application.
     - assets/images/
+
+  fonts:
+    - family: PlusJakartaSans
+      fonts:
+        - asset: assets/fonts/plus_jakarta_sans/PlusJakartaSans-VariableFont_wght.ttf
+        - asset: assets/fonts/plus_jakarta_sans/PlusJakartaSans-Italic-VariableFont_wght.ttf
+          style: italic

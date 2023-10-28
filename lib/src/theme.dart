@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 final _colorScheme = ColorScheme.fromSeed(seedColor: Colors.red);
 const borderRadius = BorderRadius.all(Radius.circular(30));
@@ -21,21 +20,21 @@ final inputDecorationTheme = InputDecorationTheme(
   ),
 );
 
-final playfairDisplayTextTheme = GoogleFonts.playfairDisplayTextTheme()
-    .headlineSmall!
-    .copyWith(fontSize: 24);
-
-final notoSerifTextTheme =
-    GoogleFonts.notoSerifTextTheme().headlineSmall!.copyWith(fontSize: 16);
+final themeData = ThemeData(fontFamily: 'PlusJakartaSans');
+final headlineTextTheme =
+    themeData.textTheme.headlineSmall!.copyWith(fontSize: 24);
+final bodyTextTheme = themeData.textTheme.bodyMedium!.copyWith(fontSize: 16);
 
 final lightThemeData = ThemeData.light().copyWith(
   useMaterial3: true,
   colorScheme: _colorScheme,
   inputDecorationTheme: inputDecorationTheme,
+  textTheme: themeData.textTheme,
 );
 
 final darkThemeData = ThemeData.dark().copyWith(
   useMaterial3: true,
   colorScheme: _colorScheme,
   inputDecorationTheme: inputDecorationTheme,
+  textTheme: themeData.textTheme,
 );
