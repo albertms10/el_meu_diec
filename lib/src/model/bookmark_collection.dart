@@ -7,6 +7,8 @@ class BookmarkCollection with ChangeNotifier {
   /// Creates a new [BookmarkCollection] from [_bookmarks].
   BookmarkCollection(this._bookmarks);
 
+  Map<String, bool> get bookmarks => Map.unmodifiable(_bookmarks);
+
   /// Returns whether [id] is bookmarked.
   bool isBookmarked(String id) => _bookmarks[id] ?? false;
 
