@@ -19,7 +19,7 @@ class DefinitionEntrySenseLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final proportionalFiguresTextStyle = notoSerifTextTheme.copyWith(
+    final proportionalFiguresTextStyle = bodyTextTheme.copyWith(
       fontFeatures: const [FontFeature.proportionalFigures()],
     );
 
@@ -56,14 +56,14 @@ class DefinitionEntrySenseLine extends StatelessWidget {
                   if (sense.gender != null)
                     TextSpan(
                       text: '${sense.gender} ',
-                      style: notoSerifTextTheme.copyWith(
+                      style: bodyTextTheme.copyWith(
                         fontStyle: FontStyle.italic,
                       ),
                     ),
                   if (sense.locution != null)
                     TextSpan(
                       text: '${sense.locution} ',
-                      style: notoSerifTextTheme.copyWith(
+                      style: bodyTextTheme.copyWith(
                         fontWeight: FontWeight.bold,
                         fontStyle: FontStyle.italic,
                       ),
@@ -81,7 +81,7 @@ class DefinitionEntrySenseLine extends StatelessWidget {
                   if (sense.definition != null)
                     TextSpan(
                       text: '${sense.definition}',
-                      style: notoSerifTextTheme,
+                      style: bodyTextTheme,
                     ),
                 ],
               ),

@@ -60,14 +60,13 @@ class AutocompleteEntryCard extends StatelessWidget {
               Text.rich(
                 TextSpan(
                   text: highlightedText,
-                  style: playfairDisplayTextTheme,
+                  style: headlineTextTheme,
                   children: [
                     if (isIncomplete)
                       TextSpan(
                         text: word.word.substring(query.length),
                         style: TextStyle(
-                          color:
-                              playfairDisplayTextTheme.color!.withOpacity(0.4),
+                          color: headlineTextTheme.color!.withOpacity(0.4),
                         ),
                       ),
                   ],
@@ -106,7 +105,7 @@ class _BookmarkButton extends StatelessWidget {
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
               TextSpan(
-                text: bookmarked ? ' als marcadors.' : ' dels marcadors.',
+                text: bookmarked ? ' a la coŀlecció.' : ' de la coŀlecció.',
               ),
             ],
           ),
@@ -129,7 +128,7 @@ class _BookmarkButton extends StatelessWidget {
       ),
       enableFeedback: true,
       tooltip:
-          isBookmarked ? 'Elimina dels marcadors' : 'Afegeix als marcadors',
+          isBookmarked ? 'Elimina de la coŀlecció' : 'Afegeix a la coŀlecció',
       onPressed: () => _onPressed(context),
     );
   }
