@@ -9,7 +9,7 @@ on:
     types: [opened, synchronize, reopened]
 
 env:
-  FLUTTER_SDK_VERSION: "3.13.1"
+  FLUTTER_SDK_VERSION: "3.16.9"
 
 permissions:
   contents: read
