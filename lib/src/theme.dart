@@ -26,14 +26,12 @@ final headlineTextTheme =
 final bodyTextTheme = themeData.textTheme.bodyMedium!.copyWith(fontSize: 16);
 
 final lightThemeData = ThemeData.light().copyWith(
-  useMaterial3: true,
   colorScheme: _colorScheme,
   inputDecorationTheme: inputDecorationTheme,
   textTheme: themeData.textTheme,
 );
 
 final darkThemeData = ThemeData.dark().copyWith(
-  useMaterial3: true,
   colorScheme: _colorScheme,
   inputDecorationTheme: inputDecorationTheme,
   textTheme: themeData.textTheme,
