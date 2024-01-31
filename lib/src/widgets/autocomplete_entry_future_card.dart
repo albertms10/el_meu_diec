@@ -1,5 +1,6 @@
 import 'package:el_meu_diec/model.dart';
-import 'package:el_meu_diec/src/widgets/autocomplete_entry_card.dart';
+import 'package:el_meu_diec/src/widgets/autocomplete_entry_card.dart'
+    hide DefinitionEntrySenses;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

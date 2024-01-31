@@ -8,13 +8,13 @@ import 'package:flutter/material.dart';
 class DefinitionEntrySenseLine extends StatelessWidget {
   final DefinitionEntrySense sense;
   final bool isFirstNumber;
-  final bool interactive;
+  final bool isInteractive;
 
   const DefinitionEntrySenseLine({
     super.key,
     required this.sense,
     this.isFirstNumber = true,
-    this.interactive = true,
+    this.isInteractive = true,
   });
 
   @override
@@ -74,7 +74,7 @@ class DefinitionEntrySenseLine extends StatelessWidget {
                         padding: const EdgeInsetsDirectional.only(end: 4),
                         child: ScopeChip(
                           scope: scope,
-                          interactive: interactive,
+                          isInteractive: isInteractive,
                         ),
                       ),
                     ),

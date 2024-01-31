@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:el_meu_diec/model.dart';
 import 'package:el_meu_diec/src/constants.dart';
+import 'package:el_meu_diec/src/pages/word_page.dart';
 import 'package:el_meu_diec/src/theme.dart';
 import 'package:el_meu_diec/src/widgets/definition_entry_sense_line.dart';
 import 'package:el_meu_diec/src/widgets/equipped_card.dart';
@@ -36,20 +37,7 @@ class AutocompleteEntryCard extends StatelessWidget {
           : showCupertinoModalBottomSheet)<void>(
         context: context,
         builder: (context) {
-          return Align(
-            alignment: Alignment.topCenter,
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsetsDirectional.all(20),
-                child: Column(
-                  children: [
-                    Text(word.word),
-                    _DefinitionEntrySenses(word: word),
-                  ],
-                ),
-              ),
-            ),
-          );
+          return WordPage(word: word);
         },
       ),
       child: Column(
@@ -77,7 +65,8 @@ class AutocompleteEntryCard extends StatelessWidget {
               _BookmarkButton(word: word),
             ],
           ),
-          if (word.senses != null) _DefinitionEntrySenses(word: word),
+          if (word.senses != null)
+            DefinitionEntrySenses(word: word, isInteractive: false),
         ],
       ),
     );
@@ -98,7 +87,7 @@ class _BookmarkButton extends StatelessWidget {
           TextSpan(
             children: [
               TextSpan(
-                text: bookmarked ? 'S’ha afegit ' : 'S’ha eliminat ',
+                text: bookmarked ? 'S’ha afegit ' : 'S’ha tret ',
               ),
               TextSpan(
                 text: word.word,
@@ -127,17 +116,21 @@ class _BookmarkButton extends StatelessWidget {
         isBookmarked ? Icons.bookmark : Icons.bookmark_outline,
       ),
       enableFeedback: true,
-      tooltip:
-          isBookmarked ? 'Elimina de la coŀlecció' : 'Afegeix a la coŀlecció',
+      tooltip: isBookmarked ? 'Treu de la coŀlecció' : 'Afegeix a la coŀlecció',
       onPressed: () => _onPressed(context),
     );
   }
 }
 
-class _DefinitionEntrySenses extends StatelessWidget {
+class DefinitionEntrySenses extends StatelessWidget {
   final Word word;
+  final bool isInteractive;
 
-  const _DefinitionEntrySenses({super.key, required this.word});
+  const DefinitionEntrySenses({
+    super.key,
+    required this.word,
+    this.isInteractive = true,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -148,7 +141,7 @@ class _DefinitionEntrySenses extends StatelessWidget {
         for (var i = 0; i < word.senses!.length; i++)
           DefinitionEntrySenseLine(
             sense: word.senses![i],
-            interactive: false,
+            isInteractive: isInteractive,
             isFirstNumber:
                 i == 0 || word.senses![i - 1].number != word.senses![i].number,
           ),
