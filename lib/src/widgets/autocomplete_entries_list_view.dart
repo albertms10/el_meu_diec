@@ -28,7 +28,7 @@ class AutocompleteEntriesListView extends StatelessWidget {
 
             case ConnectionState.waiting:
               return ListView(
-                padding: const EdgeInsets.symmetric(vertical: 30),
+                padding: const EdgeInsets.only(bottom: 60),
                 itemExtent: autocompleteEntryCardHeight,
                 children: const [
                   EquippedCard(
