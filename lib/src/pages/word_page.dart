@@ -1,6 +1,5 @@
 import 'package:el_meu_diec/src/widgets/autocomplete_entry_card.dart';
 import 'package:flutter/material.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../model/word.dart';
 
@@ -14,8 +13,8 @@ class WordPage extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Scaffold(
+      backgroundColor: Colors.transparent,
       body: SingleChildScrollView(
-        controller: ModalScrollController.of(context),
         child: Padding(
           padding: const EdgeInsetsDirectional.all(20),
           child: Column(

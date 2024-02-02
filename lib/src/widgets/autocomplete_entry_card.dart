@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:el_meu_diec/model.dart';
 import 'package:el_meu_diec/src/constants.dart';
 import 'package:el_meu_diec/src/pages/word_page.dart';
@@ -7,7 +5,6 @@ import 'package:el_meu_diec/src/theme.dart';
 import 'package:el_meu_diec/src/widgets/definition_entry_sense_line.dart';
 import 'package:el_meu_diec/src/widgets/equipped_card.dart';
 import 'package:flutter/material.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 
 class AutocompleteEntryCard extends StatelessWidget {
@@ -32,9 +29,7 @@ class AutocompleteEntryCard extends StatelessWidget {
     return EquippedCard(
       height: autocompleteEntryCardHeight,
       isLoading: isLoading,
-      onTap: () => (Platform.isAndroid
-          ? showBarModalBottomSheet
-          : showCupertinoModalBottomSheet)<void>(
+      onTap: () => showModalBottomSheet<void>(
         context: context,
         builder: (context) {
           return WordPage(word: word);
