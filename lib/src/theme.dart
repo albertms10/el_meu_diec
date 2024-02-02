@@ -1,38 +1,54 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
-final _colorScheme = ColorScheme.fromSeed(seedColor: Colors.red);
-const borderRadius = BorderRadius.all(Radius.circular(30));
-
-const defaultInputBorder = OutlineInputBorder(
-  borderRadius: borderRadius,
+const _color = Colors.red;
+const inputBorderRadius = BorderRadius.all(Radius.circular(32));
+const _defaultInputBorder = OutlineInputBorder(
+  borderRadius: inputBorderRadius,
   borderSide: BorderSide.none,
 );
 
-final inputDecorationTheme = InputDecorationTheme(
-  hintStyle: const TextStyle(fontSize: 18, color: Colors.grey),
-  filled: true,
-  fillColor: Colors.white,
-  contentPadding: const EdgeInsetsDirectional.all(20),
-  border: defaultInputBorder,
-  enabledBorder: defaultInputBorder,
-  focusedBorder: defaultInputBorder.copyWith(
-    borderSide: BorderSide(color: _colorScheme.primary, width: 2),
-  ),
+InputDecorationTheme _inputDecorationTheme(ColorScheme colorScheme) =>
+    InputDecorationTheme(
+      hintStyle: const TextStyle(fontSize: 18, color: Colors.grey),
+      filled: true,
+      fillColor: colorScheme.brightness == Brightness.light
+          ? Colors.white
+          : Colors.black,
+      contentPadding: const EdgeInsetsDirectional.all(20),
+      border: _defaultInputBorder,
+      enabledBorder: _defaultInputBorder,
+      focusedBorder: _defaultInputBorder.copyWith(
+        borderSide: BorderSide(color: colorScheme.primary, width: 2),
+      ),
+    );
+
+const _fontFamily = 'PlusJakartaSans';
+
+final lightColorScheme = ColorScheme.fromSeed(seedColor: _color);
+final lightThemeData = ThemeData(
+  brightness: Brightness.light,
+  colorScheme: lightColorScheme,
+  inputDecorationTheme: _inputDecorationTheme(lightColorScheme),
+  fontFamily: _fontFamily,
 );
 
-final themeData = ThemeData(fontFamily: 'PlusJakartaSans');
-final headlineTextTheme =
-    themeData.textTheme.headlineSmall!.copyWith(fontSize: 24);
-final bodyTextTheme = themeData.textTheme.bodyMedium!.copyWith(fontSize: 16);
-
-final lightThemeData = ThemeData.light().copyWith(
-  colorScheme: _colorScheme,
-  inputDecorationTheme: inputDecorationTheme,
-  textTheme: themeData.textTheme,
+final darkColorScheme =
+    ColorScheme.fromSeed(seedColor: _color, brightness: Brightness.dark);
+final darkThemeData = ThemeData(
+  brightness: Brightness.dark,
+  colorScheme: darkColorScheme,
+  inputDecorationTheme: _inputDecorationTheme(darkColorScheme),
+  fontFamily: _fontFamily,
 );
 
-final darkThemeData = ThemeData.dark().copyWith(
-  colorScheme: _colorScheme,
-  inputDecorationTheme: inputDecorationTheme,
-  textTheme: themeData.textTheme,
-);
+extension MyTextTheme on TextTheme {
+  TextStyle get headlineTextStyle => headlineSmall!.copyWith(fontSize: 24);
+
+  TextStyle get bodyTextStyle => bodyMedium!.copyWith(fontSize: 16);
+
+  TextStyle get proportionalFiguresTextStyle => bodyTextStyle.copyWith(
+        fontFeatures: const [FontFeature.proportionalFigures()],
+      );
+}

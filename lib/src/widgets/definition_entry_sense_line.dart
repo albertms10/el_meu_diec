@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:el_meu_diec/model.dart';
 import 'package:el_meu_diec/src/theme.dart';
 import 'package:el_meu_diec/src/widgets/scope_chip.dart';
@@ -19,9 +17,10 @@ class DefinitionEntrySenseLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final proportionalFiguresTextStyle = bodyTextTheme.copyWith(
-      fontFeatures: const [FontFeature.proportionalFigures()],
-    );
+    final theme = Theme.of(context);
+    final bodyTextTheme = theme.textTheme.bodyTextStyle;
+    final proportionalFiguresTextStyle =
+        theme.textTheme.proportionalFiguresTextStyle;
 
     return Padding(
       padding: const EdgeInsetsDirectional.only(bottom: 8),
@@ -51,7 +50,6 @@ class DefinitionEntrySenseLine extends StatelessWidget {
             child: Text.rich(
               softWrap: true,
               TextSpan(
-                style: const TextStyle(color: Colors.black),
                 children: [
                   if (sense.gender != null)
                     TextSpan(

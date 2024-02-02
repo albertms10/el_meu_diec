@@ -55,11 +55,11 @@ class _EquippedCardBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return InkWell(
       onTap: onTap,
       child: Card(
-        color: Colors.white,
-        surfaceTintColor: Colors.white,
         child: Stack(
           alignment: Alignment.bottomCenter,
           children: [
@@ -72,18 +72,21 @@ class _EquippedCardBody extends StatelessWidget {
               ),
             ),
             ClipRRect(
-              borderRadius: const BorderRadius.all(Radius.circular(18)),
+              borderRadius: const BorderRadiusDirectional.only(
+                bottomStart: Radius.circular(12),
+                bottomEnd: Radius.circular(12),
+              ),
               child: Container(
                 height: 32,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      Color(0x00ffffff),
-                      Colors.white,
+                      theme.cardColor.withOpacity(0),
+                      theme.cardColor,
                     ],
-                    stops: [0, 0.75],
+                    stops: const [0, 0.75],
                   ),
                 ),
               ),

@@ -14,29 +14,25 @@ class HomePage extends StatelessWidget {
 
   const HomePage({super.key});
 
-  static const backgroundColor = Color(0xFFF5F5F5);
-
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: const Text(
           'El meu DIEC',
-          style: TextStyle(
-            fontVariations: [
-              FontVariation('wght', 600),
-            ],
-          ),
+          style: TextStyle(fontVariations: [FontVariation.weight(600)]),
         ),
-        backgroundColor: backgroundColor,
-        surfaceTintColor: backgroundColor,
-        shadowColor: backgroundColor,
+        backgroundColor: theme.canvasColor,
+        surfaceTintColor: theme.canvasColor,
+        shadowColor: theme.canvasColor,
         actions: const [
           _BookmarksIconButton(),
         ],
       ),
-      backgroundColor: backgroundColor,
+      backgroundColor: theme.canvasColor,
       body: SafeArea(
         child: Stack(
           children: [

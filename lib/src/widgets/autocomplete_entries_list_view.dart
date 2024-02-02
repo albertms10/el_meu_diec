@@ -1,6 +1,5 @@
 import 'package:el_meu_diec/model.dart';
 import 'package:el_meu_diec/src/constants.dart';
-import 'package:el_meu_diec/src/pages/home_page.dart';
 import 'package:el_meu_diec/src/widgets/autocomplete_entry_future_card.dart';
 import 'package:el_meu_diec/src/widgets/equipped_card.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +16,7 @@ class AutocompleteEntriesListView extends StatelessWidget {
     final theme = Theme.of(context);
 
     return ColoredBox(
-      color: HomePage.backgroundColor,
+      color: theme.canvasColor,
       child: FutureBuilder(
         future: AutocompleteEntries.fetch(query),
         builder: (context, snapshot) {

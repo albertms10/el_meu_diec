@@ -50,7 +50,7 @@ class _SearchBarResultsState extends State<SearchBarResults> {
               bottom: 20,
             ),
             decoration: const BoxDecoration(
-              borderRadius: borderRadius,
+              borderRadius: inputBorderRadius,
               boxShadow: [
                 BoxShadow(
                   blurRadius: 20,
@@ -61,7 +61,7 @@ class _SearchBarResultsState extends State<SearchBarResults> {
             ),
             child: TextFormField(
               autocorrect: false,
-              style: const TextStyle(fontSize: 18, color: Colors.black),
+              style: const TextStyle(fontSize: 18),
               decoration: const InputDecoration(
                 hintText: 'Cerca',
                 suffixIcon: Padding(
