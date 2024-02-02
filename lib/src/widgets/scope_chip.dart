@@ -1,4 +1,5 @@
 import 'package:el_meu_diec/model.dart';
+import 'package:el_meu_diec/src/widgets/conditional_widget_wrap.dart';
 import 'package:flutter/material.dart';
 
 class ScopeChip extends StatelessWidget {
@@ -26,23 +27,29 @@ class ScopeChip extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(4)),
           side: BorderSide(color: Color(0xFFE0E0E0)),
         ),
-        child: Tooltip(
-          message: 'Mostra l’abreviatura',
-          child: InkWell(
-            onTap: isInteractive ? () => _onTap(context) : null,
-            child: Padding(
-              padding: const EdgeInsetsDirectional.only(
-                start: 6,
-                end: 6,
-                top: 3,
-                bottom: 4,
+        child: ConditionalWidgetWrap(
+          condition: isInteractive,
+          conditionalBuilder: (child) {
+            return Tooltip(
+              message: 'Mostra l’abreviatura',
+              child: InkWell(
+                onTap: () => _onTap(context),
+                child: child,
               ),
-              child: Text(
-                scope.name,
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 12,
-                ),
+            );
+          },
+          child: Padding(
+            padding: const EdgeInsetsDirectional.only(
+              start: 6,
+              end: 6,
+              top: 3,
+              bottom: 4,
+            ),
+            child: Text(
+              scope.name,
+              style: const TextStyle(
+                color: Colors.black,
+                fontSize: 12,
               ),
             ),
           ),
