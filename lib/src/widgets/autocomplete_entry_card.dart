@@ -26,6 +26,9 @@ class AutocompleteEntryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final headlineTextStyle = theme.textTheme.headlineTextStyle;
+
     return EquippedCard(
       height: autocompleteEntryCardHeight,
       isLoading: isLoading,
@@ -43,13 +46,13 @@ class AutocompleteEntryCard extends StatelessWidget {
               Text.rich(
                 TextSpan(
                   text: highlightedText,
-                  style: headlineTextTheme,
+                  style: headlineTextStyle,
                   children: [
                     if (isIncomplete)
                       TextSpan(
                         text: word.word.substring(query.length),
                         style: TextStyle(
-                          color: headlineTextTheme.color!.withOpacity(0.4),
+                          color: headlineTextStyle.color!.withOpacity(0.4),
                         ),
                       ),
                   ],
