@@ -55,43 +55,17 @@ class _EquippedCardBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return InkWell(
-      onTap: onTap,
-      child: Card(
-        child: Stack(
-          alignment: Alignment.bottomCenter,
-          children: [
-            Container(
-              height: height,
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              child: Wrap(
-                clipBehavior: Clip.antiAlias,
-                children: children,
-              ),
-            ),
-            ClipRRect(
-              borderRadius: const BorderRadiusDirectional.only(
-                bottomStart: Radius.circular(12),
-                bottomEnd: Radius.circular(12),
-              ),
-              child: Container(
-                height: 32,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      theme.cardColor.withOpacity(0),
-                      theme.cardColor,
-                    ],
-                    stops: const [0, 0.75],
-                  ),
-                ),
-              ),
-            ),
-          ],
+    return Card(
+      child: InkWell(
+        borderRadius: const BorderRadius.all(Radius.circular(12)),
+        onTap: onTap,
+        child: Container(
+          height: height,
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          child: Wrap(
+            clipBehavior: Clip.antiAlias,
+            children: children,
+          ),
         ),
       ),
     );

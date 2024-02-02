@@ -24,7 +24,7 @@ class _SearchBarResultsState extends State<SearchBarResults> {
   void _onChanged(String value) {
     if (_debounce?.isActive ?? false) _debounce!.cancel();
     _debounce = Timer(const Duration(milliseconds: 500), () {
-      _query.value = value;
+      _query.value = value.trim();
     });
   }
 
