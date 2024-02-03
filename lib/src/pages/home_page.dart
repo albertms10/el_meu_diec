@@ -5,6 +5,7 @@ import 'package:el_meu_diec/model.dart';
 import 'package:el_meu_diec/src/widgets/autocomplete_entry_card.dart';
 import 'package:el_meu_diec/src/widgets/search_bar_results.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
@@ -58,9 +59,11 @@ class _BookmarksIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalizations = AppLocalizations.of(context);
+
     return IconButton(
       icon: const Icon(Icons.bookmark),
-      tooltip: 'La meva coŀlecció',
+      tooltip: appLocalizations.myCollection,
       onPressed: () => (Platform.isAndroid
           ? showBarModalBottomSheet
           : showCupertinoModalBottomSheet)<void>(

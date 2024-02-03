@@ -3,6 +3,7 @@ import 'package:el_meu_diec/src/constants.dart';
 import 'package:el_meu_diec/src/widgets/autocomplete_entry_future_card.dart';
 import 'package:el_meu_diec/src/widgets/equipped_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AutocompleteEntriesListView extends StatelessWidget {
   final String query;
@@ -81,6 +82,7 @@ class _EntriesList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalizations = AppLocalizations.of(context);
     final theme = Theme.of(context);
 
     return ListView.builder(
@@ -95,26 +97,32 @@ class _EntriesList extends StatelessWidget {
 
           return Padding(
             padding: const EdgeInsetsDirectional.all(32),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  '${autocompleteEntries.length} resultats'
-                  '${reachedMaxResults ? ' o més' : ''}',
-                  textAlign: TextAlign.center,
-                  style: theme.textTheme.labelLarge,
-                ),
-                if (reachedMaxResults)
-                  const IconButton(
-                    onPressed: null,
-                    iconSize: 16,
-                    visualDensity: VisualDensity(horizontal: -4, vertical: -4),
-                    padding: EdgeInsets.all(2),
-                    tooltip: 'Es mostren els primers $maxResults '
-                        'resultats de l’autocompletat.',
-                    icon: Icon(Icons.question_mark),
+            child: TextButton(
+              onPressed: null,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    appLocalizations.nResults(autocompleteEntries.length) +
+                        (reachedMaxResults
+                            ? ' ${appLocalizations.orMore}'
+                            : ''),
+                    textAlign: TextAlign.center,
+                    style: theme.textTheme.labelLarge,
                   ),
-              ],
+                  if (reachedMaxResults)
+                    IconButton(
+                      onPressed: null,
+                      iconSize: 16,
+                      visualDensity:
+                          const VisualDensity(horizontal: -4, vertical: -4),
+                      padding: const EdgeInsets.all(2),
+                      tooltip:
+                          appLocalizations.firstNResultsAreShown(maxResults),
+                      icon: const Icon(Icons.question_mark),
+                    ),
+                ],
+              ),
             ),
           );
         }

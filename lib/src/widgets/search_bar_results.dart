@@ -4,6 +4,7 @@ import 'package:el_meu_diec/model.dart';
 import 'package:el_meu_diec/src/theme.dart';
 import 'package:el_meu_diec/src/widgets/autocomplete_entries_list_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SearchBarResults extends StatefulWidget {
   const SearchBarResults({super.key});
@@ -34,6 +35,8 @@ class _SearchBarResultsState extends State<SearchBarResults> {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalizations = AppLocalizations.of(context);
+
     return Stack(
       children: [
         Padding(
@@ -105,9 +108,9 @@ class _SearchBarResultsState extends State<SearchBarResults> {
                 child: TextFormField(
                   autocorrect: false,
                   style: const TextStyle(fontSize: 18),
-                  decoration: const InputDecoration(
-                    hintText: 'Cerca',
-                    suffixIcon: Padding(
+                  decoration: InputDecoration(
+                    hintText: appLocalizations.search,
+                    suffixIcon: const Padding(
                       padding: EdgeInsetsDirectional.only(end: 8),
                       child: Icon(Icons.search, color: Colors.grey),
                     ),
