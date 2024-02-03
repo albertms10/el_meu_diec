@@ -13,52 +13,47 @@ class AutocompleteEntriesListView extends StatelessWidget {
   Widget build(BuildContext context) {
     if (query.isEmpty) return const SizedBox();
 
-    final theme = Theme.of(context);
+    return FutureBuilder(
+      future: AutocompleteEntries.fetch(query),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return const SizedBox();
 
-    return ColoredBox(
-      color: theme.canvasColor,
-      child: FutureBuilder(
-        future: AutocompleteEntries.fetch(query),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) return const SizedBox();
+        switch (snapshot.connectionState) {
+          case ConnectionState.none:
+            return const SizedBox();
 
-          switch (snapshot.connectionState) {
-            case ConnectionState.none:
-              return const SizedBox();
+          case ConnectionState.waiting:
+            return ListView(
+              padding: const EdgeInsets.only(bottom: 60),
+              itemExtent: autocompleteEntryCardHeight,
+              children: const [
+                EquippedCard(
+                  height: autocompleteEntryCardHeight,
+                  isLoading: true,
+                ),
+                EquippedCard(
+                  height: autocompleteEntryCardHeight,
+                  isLoading: true,
+                ),
+                EquippedCard(
+                  height: autocompleteEntryCardHeight,
+                  isLoading: true,
+                ),
+                EquippedCard(
+                  height: autocompleteEntryCardHeight,
+                  isLoading: true,
+                ),
+              ],
+            );
 
-            case ConnectionState.waiting:
-              return ListView(
-                padding: const EdgeInsets.only(bottom: 60),
-                itemExtent: autocompleteEntryCardHeight,
-                children: const [
-                  EquippedCard(
-                    height: autocompleteEntryCardHeight,
-                    isLoading: true,
-                  ),
-                  EquippedCard(
-                    height: autocompleteEntryCardHeight,
-                    isLoading: true,
-                  ),
-                  EquippedCard(
-                    height: autocompleteEntryCardHeight,
-                    isLoading: true,
-                  ),
-                  EquippedCard(
-                    height: autocompleteEntryCardHeight,
-                    isLoading: true,
-                  ),
-                ],
-              );
-
-            case ConnectionState.active:
-            case ConnectionState.done:
-              return _EntriesList(
-                query: query,
-                autocompleteEntries: snapshot.data!,
-              );
-          }
-        },
-      ),
+          case ConnectionState.active:
+          case ConnectionState.done:
+            return _EntriesList(
+              query: query,
+              autocompleteEntries: snapshot.data!,
+            );
+        }
+      },
     );
   }
 }
@@ -79,50 +74,50 @@ class _EntriesList extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Scrollbar(
-      child: ListView.builder(
-        itemCount: autocompleteEntries.length + 1,
-        semanticChildCount: autocompleteEntries.length,
-        shrinkWrap: true,
-        itemExtent: autocompleteEntryCardHeight,
-        padding: const EdgeInsetsDirectional.only(bottom: 80),
-        itemBuilder: (context, index) {
-          if (index == autocompleteEntries.length) {
-            final reachedMaxResults = autocompleteEntries.length >= maxResults;
+    return ListView.builder(
+      itemCount: autocompleteEntries.length + 1,
+      semanticChildCount: autocompleteEntries.length,
+      shrinkWrap: true,
+      itemExtent: autocompleteEntryCardHeight,
+      padding: const EdgeInsetsDirectional.only(bottom: 150),
+      itemBuilder: (context, index) {
+        if (index == autocompleteEntries.length) {
+          final reachedMaxResults = autocompleteEntries.length >= maxResults;
 
-            return Padding(
-              padding: const EdgeInsetsDirectional.all(32),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    '${autocompleteEntries.length} resultats'
-                    '${reachedMaxResults ? ' o més' : ''}',
-                    textAlign: TextAlign.center,
-                    style: theme.textTheme.labelLarge,
+          return Padding(
+            padding: const EdgeInsetsDirectional.all(32),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  '${autocompleteEntries.length} resultats'
+                  '${reachedMaxResults ? ' o més' : ''}',
+                  textAlign: TextAlign.center,
+                  style: theme.textTheme.labelLarge,
+                ),
+                if (reachedMaxResults)
+                  const IconButton(
+                    onPressed: null,
+                    iconSize: 16,
+                    visualDensity: VisualDensity(horizontal: -4, vertical: -4),
+                    padding: EdgeInsets.all(2),
+                    tooltip: 'Es mostren els primers $maxResults '
+                        'resultats de l’autocompletat.',
+                    icon: Icon(Icons.question_mark),
                   ),
-                  if (reachedMaxResults)
-                    const IconButton(
-                      onPressed: null,
-                      iconSize: 16,
-                      visualDensity:
-                          VisualDensity(horizontal: -4, vertical: -4),
-                      padding: EdgeInsets.all(2),
-                      tooltip: 'Es mostren els primers $maxResults '
-                          'resultats de l’autocompletat.',
-                      icon: Icon(Icons.question_mark),
-                    ),
-                ],
-              ),
-            );
-          }
+              ],
+            ),
+          );
+        }
 
-          return AutocompleteEntryFutureCard(
+        return ColoredBox(
+          color: theme.canvasColor,
+          child: AutocompleteEntryFutureCard(
             autocompleteEntry: autocompleteEntries[index],
             query: query,
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }
