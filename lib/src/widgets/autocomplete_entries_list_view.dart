@@ -52,35 +52,75 @@ class AutocompleteEntriesListView extends StatelessWidget {
 
             case ConnectionState.active:
             case ConnectionState.done:
-              final autocompleteEntries = snapshot.data!;
-
-              return Scrollbar(
-                child: ListView.builder(
-                  itemCount: autocompleteEntries.length + 1,
-                  semanticChildCount: autocompleteEntries.length,
-                  shrinkWrap: true,
-                  itemExtent: autocompleteEntryCardHeight,
-                  padding: const EdgeInsetsDirectional.only(bottom: 60),
-                  itemBuilder: (context, index) {
-                    if (index == autocompleteEntries.length) {
-                      return Padding(
-                        padding: const EdgeInsetsDirectional.all(32),
-                        child: Text(
-                          '${autocompleteEntries.length} resultats',
-                          textAlign: TextAlign.center,
-                          style: theme.textTheme.labelLarge,
-                        ),
-                      );
-                    }
-
-                    return AutocompleteEntryFutureCard(
-                      autocompleteEntry: autocompleteEntries[index],
-                      query: query,
-                    );
-                  },
-                ),
+              return _EntriesList(
+                query: query,
+                autocompleteEntries: snapshot.data!,
               );
           }
+        },
+      ),
+    );
+  }
+}
+
+class _EntriesList extends StatelessWidget {
+  final List<AutocompleteEntry> autocompleteEntries;
+  final String query;
+
+  const _EntriesList({
+    super.key,
+    required this.autocompleteEntries,
+    required this.query,
+  });
+
+  static const maxResults = 20;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Scrollbar(
+      child: ListView.builder(
+        itemCount: autocompleteEntries.length + 1,
+        semanticChildCount: autocompleteEntries.length,
+        shrinkWrap: true,
+        itemExtent: autocompleteEntryCardHeight,
+        padding: const EdgeInsetsDirectional.only(bottom: 80),
+        itemBuilder: (context, index) {
+          if (index == autocompleteEntries.length) {
+            final reachedMaxResults = autocompleteEntries.length >= maxResults;
+
+            return Padding(
+              padding: const EdgeInsetsDirectional.all(32),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    '${autocompleteEntries.length} resultats'
+                    '${reachedMaxResults ? ' o més' : ''}',
+                    textAlign: TextAlign.center,
+                    style: theme.textTheme.labelLarge,
+                  ),
+                  if (reachedMaxResults)
+                    const IconButton(
+                      onPressed: null,
+                      iconSize: 16,
+                      visualDensity:
+                          VisualDensity(horizontal: -4, vertical: -4),
+                      padding: EdgeInsets.all(2),
+                      tooltip: 'Es mostren els primers $maxResults '
+                          'resultats de l’autocompletat.',
+                      icon: Icon(Icons.question_mark),
+                    ),
+                ],
+              ),
+            );
+          }
+
+          return AutocompleteEntryFutureCard(
+            autocompleteEntry: autocompleteEntries[index],
+            query: query,
+          );
         },
       ),
     );
