@@ -6,6 +6,7 @@ import 'package:el_meu_diec/src/theme.dart';
 import 'package:el_meu_diec/src/widgets/definition_entry_sense_line.dart';
 import 'package:el_meu_diec/src/widgets/equipped_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 class AutocompleteEntryCard extends StatelessWidget {
@@ -104,6 +105,7 @@ class _BookmarkButton extends StatelessWidget {
   const _BookmarkButton({super.key, required this.word});
 
   void _onPressed(BuildContext context) {
+    final appLocalizations = AppLocalizations.of(context);
     final bookmarked = Provider.of<BookmarkCollection>(context, listen: false)
         .toggleBookmark(word.id);
     ScaffoldMessenger.of(context).showSnackBar(
@@ -112,14 +114,20 @@ class _BookmarkButton extends StatelessWidget {
           TextSpan(
             children: [
               TextSpan(
-                text: bookmarked ? 'S’ha afegit ' : 'S’ha tret ',
+                text: bookmarked
+                    ? appLocalizations.added
+                    : appLocalizations.removed,
               ),
+              const TextSpan(text: ' '),
               TextSpan(
                 text: word.word,
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
+              const TextSpan(text: ' '),
               TextSpan(
-                text: bookmarked ? ' a la coŀlecció.' : ' de la coŀlecció.',
+                text: bookmarked
+                    ? appLocalizations.toTheCollection
+                    : appLocalizations.fromTheCollection,
               ),
             ],
           ),
@@ -131,6 +139,7 @@ class _BookmarkButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalizations = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final isBookmarked =
         Provider.of<BookmarkCollection>(context).isBookmarked(word.id);
@@ -141,7 +150,9 @@ class _BookmarkButton extends StatelessWidget {
         isBookmarked ? Icons.bookmark : Icons.bookmark_outline,
       ),
       enableFeedback: true,
-      tooltip: isBookmarked ? 'Treu de la coŀlecció' : 'Afegeix a la coŀlecció',
+      tooltip: isBookmarked
+          ? appLocalizations.removeFromTheCollection
+          : appLocalizations.addToTheCollection,
       onPressed: () => _onPressed(context),
     );
   }

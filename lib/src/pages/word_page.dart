@@ -20,7 +20,7 @@ class WordPage extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
+              SelectableText(
                 word.word,
                 style: theme.textTheme.displaySmall,
                 textAlign: TextAlign.start,

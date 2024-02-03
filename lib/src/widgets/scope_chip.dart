@@ -1,6 +1,7 @@
 import 'package:el_meu_diec/model.dart';
 import 'package:el_meu_diec/src/widgets/conditional_widget_wrap.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ScopeChip extends StatelessWidget {
   final Scope scope;
@@ -19,6 +20,8 @@ class ScopeChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalizations = AppLocalizations.of(context);
+
     return ClipRRect(
       borderRadius: const BorderRadius.all(Radius.circular(4)),
       child: Material(
@@ -31,7 +34,7 @@ class ScopeChip extends StatelessWidget {
           condition: isInteractive,
           conditionalBuilder: (child) {
             return Tooltip(
-              message: 'Mostra l’abreviatura',
+              message: appLocalizations.showAbbreviation,
               child: InkWell(
                 onTap: () => _onTap(context),
                 child: child,

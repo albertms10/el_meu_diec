@@ -1,0 +1,31 @@
+{
+  "@@locale": "ca",
+  "search": "Cerca",
+  "myCollection": "La meva coŀlecció",
+  "firstNResultsAreShown": "Es mostren els primers {n} resultats de l’autocompletat",
+  "@firstNResultsAreShown": {
+    "placeholders": {
+      "n": {
+        "type": "int",
+        "example": "20"
+      }
+    }
+  },
+  "nResults": "{n, plural, =0{Sense resultats} =1{1 resultat} other{{n} resultats}}",
+  "@nResults": {
+    "placeholders": {
+      "n": {
+        "type": "int",
+        "example": "7"
+      }
+    }
+  },
+  "orMore": "o més",
+  "addToTheCollection": "Afegeix a la coŀlecció",
+  "removeFromTheCollection": "Treu de la coŀlecció",
+  "added": "S’ha afegit",
+  "removed": "S’ha tret",
+  "toTheCollection": "a la coŀlecció",
+  "fromTheCollection": "de la coŀlecció",
+  "showAbbreviation": "Mostra l’abreviatura"
+}
