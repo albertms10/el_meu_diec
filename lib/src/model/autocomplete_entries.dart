@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 import 'autocomplete_entry.dart';
+import 'search_condition.dart';
 
 extension AutocompleteEntries on List<AutocompleteEntry> {
   static List<AutocompleteEntry> fromJson(List<dynamic> others) => [
@@ -11,12 +12,18 @@ extension AutocompleteEntries on List<AutocompleteEntry> {
           AutocompleteEntry.fromJson(entry as Map<String, dynamic>),
       ];
 
-  static Future<List<AutocompleteEntry>?> fetch(String query) async {
+  static Future<List<AutocompleteEntry>?> fetch(
+    String query, {
+    SearchCondition searchCondition = SearchCondition.defaultCondition,
+  }) async {
     final response = await http.post(
       Uri.https(
         'dlc.iec.cat',
         '/Results/CompleteEntradaText',
-        {'EntradaText': query, 'OperEntrada': '1'},
+        {
+          'EntradaText': query,
+          'OperEntrada': '${searchCondition.index}',
+        },
       ),
       headers: const {'Content-Type': 'application/json'},
     );

@@ -5,13 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AutocompleteEntryFutureCard extends StatelessWidget {
-  final AutocompleteEntry autocompleteEntry;
   final String query;
+  final SearchCondition searchCondition;
+  final AutocompleteEntry autocompleteEntry;
 
   const AutocompleteEntryFutureCard({
     super.key,
-    required this.autocompleteEntry,
     required this.query,
+    this.searchCondition = SearchCondition.defaultCondition,
+    required this.autocompleteEntry,
   });
 
   Future<Word> fetchWordFromCache(BuildContext context) async =>
@@ -42,7 +44,11 @@ class AutocompleteEntryFutureCard extends StatelessWidget {
             final word = snapshot.data!;
             Provider.of<WordCache>(context, listen: false).addWord(word);
 
-            return AutocompleteEntryCard(query: query, word: word);
+            return AutocompleteEntryCard(
+              query: query,
+              word: word,
+              searchCondition: searchCondition,
+            );
         }
       },
     );

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:el_meu_diec/model.dart';
 import 'package:el_meu_diec/src/theme.dart';
 import 'package:el_meu_diec/src/widgets/autocomplete_entries_list_view.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,9 @@ class SearchBarResults extends StatefulWidget {
 
 class _SearchBarResultsState extends State<SearchBarResults> {
   final ValueNotifier<String> _query = ValueNotifier<String>('');
+  final ValueNotifier<SearchCondition> _searchCondition =
+      ValueNotifier<SearchCondition>(SearchCondition.defaultCondition);
+
   Timer? _debounce;
 
   @override
@@ -36,41 +40,82 @@ class _SearchBarResultsState extends State<SearchBarResults> {
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: ValueListenableBuilder<String>(
             valueListenable: _query,
-            builder: (context, value, child) {
-              return AutocompleteEntriesListView(query: value);
+            builder: (context, query, child) {
+              return ValueListenableBuilder<SearchCondition>(
+                valueListenable: _searchCondition,
+                builder: (context, searchCondition, child) {
+                  return AutocompleteEntriesListView(
+                    query: query,
+                    searchCondition: searchCondition,
+                  );
+                },
+              );
             },
           ),
         ),
         Align(
           alignment: Alignment.bottomCenter,
-          child: Container(
-            margin: const EdgeInsetsDirectional.only(
-              start: 16,
-              end: 16,
-              bottom: 20,
-            ),
-            decoration: const BoxDecoration(
-              borderRadius: inputBorderRadius,
-              boxShadow: [
-                BoxShadow(
-                  blurRadius: 20,
-                  spreadRadius: 2,
-                  color: Color(0x40000000),
-                ),
-              ],
-            ),
-            child: TextFormField(
-              autocorrect: false,
-              style: const TextStyle(fontSize: 18),
-              decoration: const InputDecoration(
-                hintText: 'Cerca',
-                suffixIcon: Padding(
-                  padding: EdgeInsetsDirectional.only(end: 8),
-                  child: Icon(Icons.search, color: Colors.grey),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                height: 80,
+                child: ValueListenableBuilder<SearchCondition>(
+                  valueListenable: _searchCondition,
+                  builder: (context, searchCondition, child) {
+                    return ListView.separated(
+                      itemCount: SearchCondition.values.length,
+                      scrollDirection: Axis.horizontal,
+                      padding:
+                          const EdgeInsetsDirectional.symmetric(horizontal: 16),
+                      separatorBuilder: (context, index) {
+                        return const SizedBox(width: 8);
+                      },
+                      itemBuilder: (context, index) {
+                        final searchCondition = SearchCondition.values[index];
+
+                        return ChoiceChip.elevated(
+                          label: Text(searchCondition.translate()),
+                          selected: _searchCondition.value == searchCondition,
+                          onSelected: (value) {
+                            _searchCondition.value = searchCondition;
+                          },
+                        );
+                      },
+                    );
+                  },
                 ),
               ),
-              onChanged: _onChanged,
-            ),
+              Container(
+                margin: const EdgeInsetsDirectional.only(
+                  start: 16,
+                  end: 16,
+                  bottom: 20,
+                ),
+                decoration: const BoxDecoration(
+                  borderRadius: inputBorderRadius,
+                  boxShadow: [
+                    BoxShadow(
+                      blurRadius: 20,
+                      spreadRadius: 2,
+                      color: Color(0x40000000),
+                    ),
+                  ],
+                ),
+                child: TextFormField(
+                  autocorrect: false,
+                  style: const TextStyle(fontSize: 18),
+                  decoration: const InputDecoration(
+                    hintText: 'Cerca',
+                    suffixIcon: Padding(
+                      padding: EdgeInsetsDirectional.only(end: 8),
+                      child: Icon(Icons.search, color: Colors.grey),
+                    ),
+                  ),
+                  onChanged: _onChanged,
+                ),
+              ),
+            ],
           ),
         ),
       ],
