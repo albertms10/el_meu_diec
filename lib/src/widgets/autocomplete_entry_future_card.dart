@@ -12,7 +12,7 @@ class AutocompleteEntryFutureCard extends StatelessWidget {
   const AutocompleteEntryFutureCard({
     super.key,
     required this.query,
-    this.searchCondition = SearchCondition.startingWith,
+    this.searchCondition = SearchCondition.defaultCondition,
     required this.autocompleteEntry,
   });
 

@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 import 'autocomplete_entry.dart';
+import 'search_condition.dart';
 
 extension AutocompleteEntries on List<AutocompleteEntry> {
   static List<AutocompleteEntry> fromJson(List<dynamic> others) => [
@@ -13,7 +14,7 @@ extension AutocompleteEntries on List<AutocompleteEntry> {
 
   static Future<List<AutocompleteEntry>?> fetch(
     String query, {
-    SearchCondition searchCondition = SearchCondition.startingWith,
+    SearchCondition searchCondition = SearchCondition.defaultCondition,
   }) async {
     final response = await http.post(
       Uri.https(
@@ -36,24 +37,4 @@ extension AutocompleteEntries on List<AutocompleteEntry> {
 
     return fromJson(responseBody['entrades'] as List<dynamic>);
   }
-}
-
-enum SearchCondition {
-  coincident,
-  startingWith,
-  endingIn,
-  inAnyPosition,
-  notStartingWith,
-  notEndingIn,
-  doesNotContain;
-
-  String translate() => switch (this) {
-        coincident => 'Coincident',
-        startingWith => 'Començada per',
-        endingIn => 'Acabada en',
-        inAnyPosition => 'En qualsevol posició',
-        notStartingWith => 'No començada per',
-        notEndingIn => 'No acabada en',
-        doesNotContain => 'Que no contingui',
-      };
 }

@@ -15,7 +15,7 @@ class SearchBarResults extends StatefulWidget {
 class _SearchBarResultsState extends State<SearchBarResults> {
   final ValueNotifier<String> _query = ValueNotifier<String>('');
   final ValueNotifier<SearchCondition> _searchCondition =
-      ValueNotifier<SearchCondition>(SearchCondition.startingWith);
+      ValueNotifier<SearchCondition>(SearchCondition.defaultCondition);
 
   Timer? _debounce;
 

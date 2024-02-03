@@ -11,7 +11,7 @@ class AutocompleteEntriesListView extends StatelessWidget {
   const AutocompleteEntriesListView({
     super.key,
     required this.query,
-    this.searchCondition = SearchCondition.startingWith,
+    this.searchCondition = SearchCondition.defaultCondition,
   });
 
   @override
@@ -74,7 +74,7 @@ class _EntriesList extends StatelessWidget {
     super.key,
     required this.query,
     required this.autocompleteEntries,
-    this.searchCondition = SearchCondition.startingWith,
+    this.searchCondition = SearchCondition.defaultCondition,
   });
 
   static const maxResults = 20;

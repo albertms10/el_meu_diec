@@ -5,5 +5,6 @@ export 'src/model/definition_entry_sense.dart';
 export 'src/model/definition_entry_senses.dart';
 export 'src/model/gender.dart';
 export 'src/model/scope.dart';
+export 'src/model/search_condition.dart';
 export 'src/model/word.dart';
 export 'src/model/word_cache.dart';

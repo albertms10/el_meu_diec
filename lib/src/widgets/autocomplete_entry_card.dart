@@ -18,7 +18,7 @@ class AutocompleteEntryCard extends StatelessWidget {
     super.key,
     required this.query,
     required this.word,
-    this.searchCondition = SearchCondition.startingWith,
+    this.searchCondition = SearchCondition.defaultCondition,
     this.isLoading = false,
   });
 
