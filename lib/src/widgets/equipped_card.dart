@@ -55,7 +55,11 @@ class _EquippedCardBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Card(
+      elevation: 0,
+      color: theme.colorScheme.surfaceVariant,
       child: InkWell(
         borderRadius: const BorderRadius.all(Radius.circular(12)),
         onTap: onTap,

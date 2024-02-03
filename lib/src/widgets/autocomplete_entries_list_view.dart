@@ -6,15 +6,21 @@ import 'package:flutter/material.dart';
 
 class AutocompleteEntriesListView extends StatelessWidget {
   final String query;
+  final SearchCondition searchCondition;
 
-  const AutocompleteEntriesListView({super.key, required this.query});
+  const AutocompleteEntriesListView({
+    super.key,
+    required this.query,
+    this.searchCondition = SearchCondition.startingWith,
+  });
 
   @override
   Widget build(BuildContext context) {
     if (query.isEmpty) return const SizedBox();
 
     return FutureBuilder(
-      future: AutocompleteEntries.fetch(query),
+      future:
+          AutocompleteEntries.fetch(query, searchCondition: searchCondition),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return const SizedBox();
 
@@ -50,6 +56,7 @@ class AutocompleteEntriesListView extends StatelessWidget {
           case ConnectionState.done:
             return _EntriesList(
               query: query,
+              searchCondition: searchCondition,
               autocompleteEntries: snapshot.data!,
             );
         }
@@ -59,13 +66,15 @@ class AutocompleteEntriesListView extends StatelessWidget {
 }
 
 class _EntriesList extends StatelessWidget {
-  final List<AutocompleteEntry> autocompleteEntries;
   final String query;
+  final SearchCondition searchCondition;
+  final List<AutocompleteEntry> autocompleteEntries;
 
   const _EntriesList({
     super.key,
-    required this.autocompleteEntries,
     required this.query,
+    required this.autocompleteEntries,
+    this.searchCondition = SearchCondition.startingWith,
   });
 
   static const maxResults = 20;
@@ -113,8 +122,9 @@ class _EntriesList extends StatelessWidget {
         return ColoredBox(
           color: theme.canvasColor,
           child: AutocompleteEntryFutureCard(
-            autocompleteEntry: autocompleteEntries[index],
             query: query,
+            searchCondition: searchCondition,
+            autocompleteEntry: autocompleteEntries[index],
           ),
         );
       },

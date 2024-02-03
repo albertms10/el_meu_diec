@@ -11,12 +11,18 @@ extension AutocompleteEntries on List<AutocompleteEntry> {
           AutocompleteEntry.fromJson(entry as Map<String, dynamic>),
       ];
 
-  static Future<List<AutocompleteEntry>?> fetch(String query) async {
+  static Future<List<AutocompleteEntry>?> fetch(
+    String query, {
+    SearchCondition searchCondition = SearchCondition.startingWith,
+  }) async {
     final response = await http.post(
       Uri.https(
         'dlc.iec.cat',
         '/Results/CompleteEntradaText',
-        {'EntradaText': query, 'OperEntrada': '1'},
+        {
+          'EntradaText': query,
+          'OperEntrada': '${searchCondition.index}',
+        },
       ),
       headers: const {'Content-Type': 'application/json'},
     );
@@ -30,4 +36,24 @@ extension AutocompleteEntries on List<AutocompleteEntry> {
 
     return fromJson(responseBody['entrades'] as List<dynamic>);
   }
+}
+
+enum SearchCondition {
+  coincident,
+  startingWith,
+  endingIn,
+  inAnyPosition,
+  notStartingWith,
+  notEndingIn,
+  doesNotContain;
+
+  String translate() => switch (this) {
+        coincident => 'Coincident',
+        startingWith => 'Començada per',
+        endingIn => 'Acabada en',
+        inAnyPosition => 'En qualsevol posició',
+        notStartingWith => 'No començada per',
+        notEndingIn => 'No acabada en',
+        doesNotContain => 'Que no contingui',
+      };
 }

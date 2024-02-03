@@ -9,6 +9,10 @@ const _defaultInputBorder = OutlineInputBorder(
   borderSide: BorderSide.none,
 );
 
+const _chipThemeData = ChipThemeData(
+  shape: StadiumBorder(),
+);
+
 InputDecorationTheme _inputDecorationTheme(ColorScheme colorScheme) =>
     InputDecorationTheme(
       hintStyle: const TextStyle(fontSize: 18, color: Colors.grey),
@@ -30,8 +34,9 @@ final lightColorScheme = ColorScheme.fromSeed(seedColor: _color);
 final lightThemeData = ThemeData(
   brightness: Brightness.light,
   colorScheme: lightColorScheme,
-  inputDecorationTheme: _inputDecorationTheme(lightColorScheme),
   fontFamily: _fontFamily,
+  inputDecorationTheme: _inputDecorationTheme(lightColorScheme),
+  chipTheme: _chipThemeData,
 );
 
 final darkColorScheme =
@@ -39,8 +44,9 @@ final darkColorScheme =
 final darkThemeData = ThemeData(
   brightness: Brightness.dark,
   colorScheme: darkColorScheme,
-  inputDecorationTheme: _inputDecorationTheme(darkColorScheme),
   fontFamily: _fontFamily,
+  inputDecorationTheme: _inputDecorationTheme(darkColorScheme),
+  chipTheme: _chipThemeData,
 );
 
 extension MyTextTheme on TextTheme {

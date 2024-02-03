@@ -1,3 +1,4 @@
+import 'package:diacritic/diacritic.dart';
 import 'package:el_meu_diec/model.dart';
 import 'package:el_meu_diec/src/constants.dart';
 import 'package:el_meu_diec/src/pages/word_page.dart';
@@ -10,24 +11,41 @@ import 'package:provider/provider.dart';
 class AutocompleteEntryCard extends StatelessWidget {
   final String query;
   final Word word;
+  final SearchCondition searchCondition;
   final bool isLoading;
 
   const AutocompleteEntryCard({
     super.key,
     required this.query,
     required this.word,
+    this.searchCondition = SearchCondition.startingWith,
     this.isLoading = false,
   });
 
   bool get isIncomplete => word.word.length > query.length;
 
-  String get highlightedText =>
-      isIncomplete ? word.word.substring(0, query.length) : word.word;
+  (int start, int end) get highlightedRange => switch (searchCondition) {
+        SearchCondition.startingWith => (0, query.length),
+        SearchCondition.endingIn => (
+            word.word.length - query.length,
+            word.word.length,
+          ),
+        SearchCondition.inAnyPosition => (
+            removeDiacritics(word.word).indexOf(removeDiacritics(query)),
+            removeDiacritics(word.word).indexOf(removeDiacritics(query)) +
+                query.length,
+          ),
+        _ => (0, word.word.length),
+      };
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final headlineTextStyle = theme.textTheme.headlineTextStyle;
+
+    final (start, end) = highlightedRange;
+    final isIncompleteStart = start > 0;
+    final isIncompleteEnd = end < word.word.length;
 
     return EquippedCard(
       height: autocompleteEntryCardHeight,
@@ -45,13 +63,22 @@ class AutocompleteEntryCard extends StatelessWidget {
             children: [
               Text.rich(
                 TextSpan(
-                  text: highlightedText,
-                  style: headlineTextStyle,
                   children: [
-                    if (isIncomplete)
+                    if (isIncompleteStart)
                       TextSpan(
-                        text: word.word.substring(query.length),
-                        style: TextStyle(
+                        text: word.word.substring(0, start),
+                        style: headlineTextStyle.copyWith(
+                          color: headlineTextStyle.color!.withOpacity(0.4),
+                        ),
+                      ),
+                    TextSpan(
+                      text: word.word.substring(start, end),
+                      style: headlineTextStyle,
+                    ),
+                    if (isIncompleteEnd)
+                      TextSpan(
+                        text: word.word.substring(end),
+                        style: headlineTextStyle.copyWith(
                           color: headlineTextStyle.color!.withOpacity(0.4),
                         ),
                       ),
