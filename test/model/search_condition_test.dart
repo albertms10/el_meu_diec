@@ -15,7 +15,7 @@ void main() {
           const (0, 1),
         );
         expect(
-          SearchCondition.startingWith.highlightedRange('fabària', 'faba'),
+          SearchCondition.startingWith.highlightedRange('alçària', 'alça'),
           const (0, 4),
         );
 

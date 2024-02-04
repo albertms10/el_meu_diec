@@ -16,8 +16,9 @@ enum SearchCondition {
   ///
   /// Example:
   /// ```dart
-  /// SearchCondition.startingWith.highlightedRange('dart', 'da')
-  ///   == (0, 2)
+  /// SearchCondition.startingWith.highlightedRange('pla', 'pl') == (0, 2)
+  /// SearchCondition.endingIn.highlightedRange('alçària', 'aria') == (3, 7)
+  /// SearchCondition.doesNotContain.highlightedRange('alçària', 'b') == null
   /// ```
   (int start, int end)? highlightedRange(String word, String query) {
     switch (this) {
