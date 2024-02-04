@@ -1,4 +1,3 @@
-import 'package:diacritic/diacritic.dart';
 import 'package:el_meu_diec/model.dart';
 import 'package:el_meu_diec/src/constants.dart';
 import 'package:el_meu_diec/src/pages/word_page.dart';
@@ -25,26 +24,13 @@ class AutocompleteEntryCard extends StatelessWidget {
 
   bool get isIncomplete => word.word.length > query.length;
 
-  (int start, int end) get highlightedRange => switch (searchCondition) {
-        SearchCondition.startingWith => (0, query.length),
-        SearchCondition.endingIn => (
-            word.word.length - query.length,
-            word.word.length,
-          ),
-        SearchCondition.inAnyPosition => (
-            removeDiacritics(word.word).indexOf(removeDiacritics(query)),
-            removeDiacritics(word.word).indexOf(removeDiacritics(query)) +
-                query.length,
-          ),
-        _ => (0, word.word.length),
-      };
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final headlineTextStyle = theme.textTheme.headlineTextStyle;
 
-    final (start, end) = highlightedRange;
+    final (start, end) = searchCondition.highlightedRange(word.word, query) ??
+        (0, word.word.length);
     final isIncompleteStart = start > 0;
     final isIncompleteEnd = end < word.word.length;
 
