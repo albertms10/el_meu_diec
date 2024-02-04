@@ -5,7 +5,7 @@ import 'gender.dart';
 import 'scope.dart';
 
 @immutable
-class DefinitionEntrySense {
+final class DefinitionEntrySense {
   final int? number;
   final int? subNumber;
   final Gender? gender;

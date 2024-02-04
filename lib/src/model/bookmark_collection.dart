@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 /// A collection of bookmarks.
-class BookmarkCollection with ChangeNotifier {
+final class BookmarkCollection with ChangeNotifier {
   final Map<String, bool> _bookmarks;
 
   /// Creates a new [BookmarkCollection] from [_bookmarks].

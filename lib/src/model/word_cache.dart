@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'word.dart';
 
 /// The word cache.
-class WordCache with ChangeNotifier {
+final class WordCache with ChangeNotifier {
   final Map<String, Word> _words;
 
   /// Creates a new [WordCache] from [_words].
