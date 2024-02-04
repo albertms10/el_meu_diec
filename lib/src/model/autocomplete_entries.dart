@@ -1,8 +1,4 @@
-import 'dart:convert';
-
-import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
-
+import '../repositories/diec_repository.dart';
 import 'autocomplete_entry.dart';
 import 'search_condition.dart';
 
@@ -16,24 +12,8 @@ extension AutocompleteEntries on List<AutocompleteEntry> {
     String query, {
     SearchCondition searchCondition = SearchCondition.defaultCondition,
   }) async {
-    final response = await http.post(
-      Uri.https(
-        'dlc.iec.cat',
-        '/Results/CompleteEntradaText',
-        {
-          'EntradaText': query,
-          'OperEntrada': '${searchCondition.index}',
-        },
-      ),
-      headers: const {'Content-Type': 'application/json'},
-    );
-
-    if (response.statusCode != 200) {
-      debugPrint("Can't find definition");
-      return null;
-    }
-
-    final responseBody = json.decode(response.body) as Map<String, dynamic>;
+    final responseBody = await const DIECRepository()
+        .autocompleteEntries(query, searchCondition: searchCondition);
 
     return fromJson(responseBody['entrades'] as List<dynamic>);
   }

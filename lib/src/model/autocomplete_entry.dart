@@ -4,7 +4,7 @@ import 'definition_entry_sense.dart';
 import 'word.dart';
 
 @immutable
-class AutocompleteEntry {
+final class AutocompleteEntry {
   final String id;
   final String word;
 
