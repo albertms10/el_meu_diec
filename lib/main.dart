@@ -18,7 +18,11 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => BookmarkCollection({})),
+        ChangeNotifierProvider(
+          create: (context) => BookmarkCollections(
+            {'La meva llista': BookmarkCollection('La meva llista', {})},
+          ),
+        ),
         ChangeNotifierProvider(create: (context) => WordCache({})),
       ],
       // Run the app and pass in the SettingsController. The app listens to the
