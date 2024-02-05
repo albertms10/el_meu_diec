@@ -20,7 +20,6 @@ class HomePage extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Scaffold(
-      extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: const Text(
           'El meu DIEC',
@@ -72,10 +71,30 @@ class _BookmarksIconButton extends StatelessWidget {
           final bookmarks = Provider.of<BookmarkCollection>(context).bookmarks;
           final wordCache = Provider.of<WordCache>(context);
 
+          final theme = Theme.of(context);
+          final appLocalizations = AppLocalizations.of(context);
+
           return Scaffold(
+            appBar: AppBar(
+              title: Text(
+                appLocalizations.myCollection,
+                style: const TextStyle(
+                  fontVariations: [FontVariation.weight(600)],
+                ),
+              ),
+              backgroundColor: theme.canvasColor,
+              surfaceTintColor: theme.canvasColor,
+              shadowColor: theme.canvasColor,
+              leading: IconButton(
+                onPressed: () => Navigator.of(context).pop(),
+                icon: const Icon(Icons.close),
+              ),
+            ),
+            backgroundColor: theme.canvasColor,
             body: Align(
               alignment: Alignment.topCenter,
               child: ListView.builder(
+                padding: const EdgeInsetsDirectional.symmetric(horizontal: 16),
                 itemCount: bookmarks.length,
                 itemBuilder: (context, index) {
                   final word = wordCache.wordFromId(

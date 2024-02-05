@@ -2,11 +2,10 @@ import 'package:el_meu_diec/model.dart';
 import 'package:el_meu_diec/src/constants.dart';
 import 'package:el_meu_diec/src/pages/word_page.dart';
 import 'package:el_meu_diec/src/theme.dart';
+import 'package:el_meu_diec/src/widgets/bookmark_button.dart';
 import 'package:el_meu_diec/src/widgets/definition_entry_sense_line.dart';
 import 'package:el_meu_diec/src/widgets/equipped_card.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
 
 class AutocompleteEntryCard extends StatelessWidget {
   final String query;
@@ -74,72 +73,13 @@ class AutocompleteEntryCard extends StatelessWidget {
               ),
               const Spacer(),
               const SizedBox(width: 4),
-              _BookmarkButton(word: word),
+              BookmarkButton(word: word),
             ],
           ),
           if (word.senses != null)
             DefinitionEntrySenses(word: word, isInteractive: false),
         ],
       ),
-    );
-  }
-}
-
-class _BookmarkButton extends StatelessWidget {
-  final Word word;
-
-  const _BookmarkButton({super.key, required this.word});
-
-  void _onPressed(BuildContext context) {
-    final appLocalizations = AppLocalizations.of(context);
-    final bookmarked = Provider.of<BookmarkCollection>(context, listen: false)
-        .toggleBookmark(word.id);
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text.rich(
-          TextSpan(
-            children: [
-              TextSpan(
-                text: bookmarked
-                    ? appLocalizations.added
-                    : appLocalizations.removed,
-              ),
-              const TextSpan(text: ' '),
-              TextSpan(
-                text: word.word,
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
-              const TextSpan(text: ' '),
-              TextSpan(
-                text: bookmarked
-                    ? appLocalizations.toTheCollection
-                    : appLocalizations.fromTheCollection,
-              ),
-            ],
-          ),
-        ),
-        duration: const Duration(seconds: 2),
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final appLocalizations = AppLocalizations.of(context);
-    final theme = Theme.of(context);
-    final isBookmarked =
-        Provider.of<BookmarkCollection>(context).isBookmarked(word.id);
-
-    return IconButton(
-      color: theme.colorScheme.primary,
-      icon: Icon(
-        isBookmarked ? Icons.bookmark : Icons.bookmark_outline,
-      ),
-      enableFeedback: true,
-      tooltip: isBookmarked
-          ? appLocalizations.removeFromTheCollection
-          : appLocalizations.addToTheCollection,
-      onPressed: () => _onPressed(context),
     );
   }
 }
