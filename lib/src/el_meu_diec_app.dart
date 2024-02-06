@@ -7,8 +7,8 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'settings/settings_controller.dart';
 import 'settings/settings_view.dart';
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key, required this.settingsController});
+class ElMeuDIECApp extends StatelessWidget {
+  const ElMeuDIECApp({super.key, required this.settingsController});
 
   final SettingsController settingsController;
 

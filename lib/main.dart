@@ -2,7 +2,7 @@ import 'package:el_meu_diec/model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'src/app.dart';
+import 'src/el_meu_diec_app.dart';
 import 'src/settings/settings_controller.dart';
 import 'src/settings/settings_service.dart';
 
@@ -20,7 +20,7 @@ void main() async {
       providers: [
         ChangeNotifierProvider(
           create: (context) => BookmarkCollections(
-            {'La meva llista': BookmarkCollection('La meva llista', {})},
+            {'La meva llista ✨': BookmarkCollection('La meva llista ✨', {})},
           ),
         ),
         ChangeNotifierProvider(create: (context) => WordCache({})),
@@ -28,7 +28,7 @@ void main() async {
       // Run the app and pass in the SettingsController. The app listens to the
       // SettingsController for changes, then passes it further down to the
       // SettingsView.
-      child: MyApp(settingsController: settingsController),
+      child: ElMeuDIECApp(settingsController: settingsController),
     ),
   );
 }
