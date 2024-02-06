@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:el_meu_diec/src/pages/collections_page.dart';
+import 'package:el_meu_diec/src/widgets/collections_navigator.dart';
 import 'package:el_meu_diec/src/widgets/search_bar_results.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -65,8 +65,9 @@ class _CollectionsIconButton extends StatelessWidget {
           ? showCupertinoModalBottomSheet
           : showBarModalBottomSheet)<void>(
         context: context,
+        animationCurve: Curves.fastEaseInToSlowEaseOut,
         builder: (context) {
-          return const CollectionsPage();
+          return const CollectionsNavigator();
         },
       ),
     );
