@@ -11,7 +11,7 @@ final class BookmarkCollections with ChangeNotifier {
   Map<String, BookmarkCollection> get collections =>
       Map.unmodifiable(_collections);
 
-  SplayTreeSet<BookmarkCollection> get sortedCollections =>
+  Set<BookmarkCollection> get sortedCollections =>
       SplayTreeSet.of(_collections.values);
 
   /// Returns whether [id] is bookmarked.
@@ -47,6 +47,13 @@ final class BookmarkCollection implements Comparable<BookmarkCollection> {
       : lastModified = DateTime.now();
 
   Map<String, DateTime> get bookmarks => Map.unmodifiable(_bookmarks);
+
+  Map<String, DateTime> get sortedBookmarks => Map.unmodifiable(
+        Map.fromEntries(
+          _bookmarks.entries.toList()
+            ..sort((a, b) => b.value.compareTo(a.value)),
+        ),
+      );
 
   /// Returns whether [id] is bookmarked.
   bool isBookmarked(String id) => _bookmarks.containsKey(id);
