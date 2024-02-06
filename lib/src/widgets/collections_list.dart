@@ -1,5 +1,6 @@
 import 'package:el_meu_diec/model.dart';
 import 'package:el_meu_diec/src/pages/bookmark_collection_page.dart';
+import 'package:el_meu_diec/src/widgets/collection_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -21,13 +22,13 @@ class CollectionsList extends StatelessWidget {
         final collection = collections.elementAt(index);
         final bookmarks = collection.sortedBookmarks;
         final lastWords =
-            bookmarks.keys.take(3).map(wordCache.wordFromId).toList();
+            bookmarks.keys.take(6).map(wordCache.wordFromId).toList();
 
         return ListTile(
           title: Text(collection.name),
           subtitle: Text(appLocalizations.nWords(bookmarks.length)),
           visualDensity: const VisualDensity(horizontal: 4, vertical: 4),
-          leading: _CollectionAvatar(words: lastWords),
+          leading: CollectionAvatar(words: lastWords),
           onTap: () async {
             await Navigator.of(context).pushNamed(
               BookmarkCollectionPage.routeName,
@@ -36,44 +37,6 @@ class CollectionsList extends StatelessWidget {
           },
         );
       },
-    );
-  }
-}
-
-class _CollectionAvatar extends StatelessWidget {
-  final List<Word?> words;
-
-  const _CollectionAvatar({super.key, required this.words});
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    const wordTextStyle =
-        TextStyle(fontSize: 16, letterSpacing: -0.5, height: 1.15);
-
-    return Container(
-      width: 72,
-      height: 72,
-      padding: const EdgeInsets.all(6),
-      decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(12)),
-        border: Border.all(color: theme.colorScheme.outline),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          for (final word in words)
-            Text(
-              word?.word ?? '',
-              overflow: TextOverflow.fade,
-              maxLines: 1,
-              softWrap: false,
-              style: wordTextStyle,
-            ),
-        ],
-      ),
     );
   }
 }
