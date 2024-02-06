@@ -15,28 +15,30 @@ class BookmarkButton extends StatelessWidget {
 
   void _onPressed(BuildContext context) {
     final appLocalizations = AppLocalizations.of(context);
-    final bookmarked = Provider.of<BookmarkCollection>(context, listen: false)
-        .toggleBookmark(word.id);
+
+    final bookmarkCollections =
+        Provider.of<BookmarkCollections>(context, listen: false);
+
+    if (bookmarkCollections.isBookmarked(word.id)) return;
+
+    final collection = bookmarkCollections.addBookmark(word.id);
+
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text.rich(
           TextSpan(
             children: [
-              TextSpan(
-                text: bookmarked
-                    ? appLocalizations.added
-                    : appLocalizations.removed,
-              ),
+              TextSpan(text: appLocalizations.added),
               const TextSpan(text: ' '),
               TextSpan(
                 text: word.word,
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
               const TextSpan(text: ' '),
+              TextSpan(text: appLocalizations.toTheCollection),
               TextSpan(
-                text: bookmarked
-                    ? appLocalizations.toTheCollection
-                    : appLocalizations.fromTheCollection,
+                text: ' ${collection.name}.',
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ],
           ),
@@ -51,7 +53,7 @@ class BookmarkButton extends StatelessWidget {
     final appLocalizations = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final isBookmarked =
-        Provider.of<BookmarkCollection>(context).isBookmarked(word.id);
+        Provider.of<BookmarkCollections>(context).isBookmarked(word.id);
 
     return (isTonalFilled ? IconButton.filledTonal : IconButton.new)(
       color: theme.colorScheme.primary,
@@ -60,8 +62,8 @@ class BookmarkButton extends StatelessWidget {
       ),
       enableFeedback: true,
       tooltip: isBookmarked
-          ? appLocalizations.removeFromTheCollection
-          : appLocalizations.addToTheCollection,
+          ? appLocalizations.changeCollections
+          : appLocalizations.addToACollection,
       onPressed: () => _onPressed(context),
     );
   }
