@@ -26,6 +26,7 @@ class ElMeuDIECApp extends StatelessWidget {
           theme: lightThemeData,
           darkTheme: darkThemeData,
           themeMode: settingsController.themeMode,
+          initialRoute: HomePage.routeName,
           onGenerateRoute: (routeSettings) {
             return MaterialWithModalsPageRoute<void>(
               settings: routeSettings,
@@ -34,7 +35,6 @@ class ElMeuDIECApp extends StatelessWidget {
                   case SettingsView.routeName:
                     return SettingsView(controller: settingsController);
 
-                  case HomePage.routeName:
                   default:
                     return const HomePage();
                 }
