@@ -9,7 +9,9 @@ import 'package:provider/provider.dart';
 class CollectionsPage extends StatelessWidget {
   static const routeName = 'collections_page';
 
-  const CollectionsPage({super.key});
+  final BuildContext? parentContext;
+
+  const CollectionsPage({super.key, this.parentContext});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,7 @@ class CollectionsPage extends StatelessWidget {
         shadowColor: theme.canvasColor,
         centerTitle: true,
         leading: IconButton(
-          onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
+          onPressed: () => Navigator.of(parentContext ?? context).pop(),
           icon: const Icon(Icons.close),
         ),
         actions: const [
