@@ -26,6 +26,9 @@ InputDecorationTheme _inputDecorationTheme(ColorScheme colorScheme) =>
       focusedBorder: _defaultInputBorder.copyWith(
         borderSide: BorderSide(color: colorScheme.primary, width: 2),
       ),
+      focusedErrorBorder: _defaultInputBorder.copyWith(
+        borderSide: BorderSide(color: colorScheme.error, width: 3),
+      ),
     );
 
 const _fontFamily = 'PlusJakartaSans';

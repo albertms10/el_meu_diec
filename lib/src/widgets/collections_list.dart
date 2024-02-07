@@ -18,6 +18,7 @@ class CollectionsList extends StatelessWidget {
 
     return ListView.builder(
       itemCount: collections.length,
+      padding: const EdgeInsetsDirectional.only(bottom: 16),
       itemBuilder: (context, index) {
         final collection = collections.elementAt(index);
         final bookmarks = collection.sortedBookmarks;

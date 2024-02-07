@@ -34,7 +34,11 @@ class BookmarkCollectionPage extends StatelessWidget {
       ),
       backgroundColor: theme.canvasColor,
       body: ListView.builder(
-        padding: const EdgeInsetsDirectional.symmetric(horizontal: 16),
+        padding: const EdgeInsetsDirectional.only(
+          start: 16,
+          end: 16,
+          bottom: 32,
+        ),
         itemCount: bookmarks.length,
         itemBuilder: (context, index) {
           final word = wordCache.wordFromId(
