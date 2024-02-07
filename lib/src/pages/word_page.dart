@@ -1,3 +1,4 @@
+import 'package:el_meu_diec/src/routes/diec_routes.dart';
 import 'package:el_meu_diec/src/widgets/autocomplete_entry_card.dart';
 import 'package:el_meu_diec/src/widgets/bookmark_button.dart';
 import 'package:flutter/material.dart';
@@ -31,12 +32,7 @@ class WordPage extends StatelessWidget {
         actions: [
           BookmarkButton(word: word, isTonalFilled: true),
           IconButton.filledTonal(
-            onPressed: () => Share.shareUri(
-              Uri.https('dlc.iec.cat', '/Results', {
-                'IdE': word.id,
-                'DecEntradaText': word.word,
-              }),
-            ),
+            onPressed: () => Share.shareUri(const DIECRoutes().wordUri(word)),
             icon: const Icon(Icons.ios_share_rounded),
           ),
           const SizedBox(width: 4),
