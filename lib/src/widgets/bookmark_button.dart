@@ -37,7 +37,7 @@ class BookmarkButton extends StatelessWidget {
               const TextSpan(text: ' '),
               TextSpan(text: appLocalizations.toTheCollection),
               TextSpan(
-                text: ' ${collection.name}.',
+                text: ' ${collection.name}',
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ],

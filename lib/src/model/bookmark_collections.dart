@@ -6,13 +6,22 @@ final class BookmarkCollections with ChangeNotifier {
   final Map<String, BookmarkCollection> _collections;
 
   /// Creates a new [BookmarkCollections] from [_collections].
-  BookmarkCollections(this._collections);
+  BookmarkCollections._(this._collections);
+
+  BookmarkCollections.fromNames(List<String> names)
+      : this._({for (final name in names) name: BookmarkCollection(name, {})});
 
   Map<String, BookmarkCollection> get collections =>
       Map.unmodifiable(_collections);
 
   Set<BookmarkCollection> get sortedCollections =>
       SplayTreeSet.of(_collections.values);
+
+  void addCollection(String name) {
+    notifyListeners();
+
+    _collections.addAll({name: BookmarkCollection(name, {})});
+  }
 
   /// Returns whether [id] is bookmarked.
   bool isBookmarked(String id) =>
@@ -83,5 +92,5 @@ final class BookmarkCollection implements Comparable<BookmarkCollection> {
 
   @override
   int compareTo(BookmarkCollection other) =>
-      lastModified.compareTo(other.lastModified);
+      other.lastModified.compareTo(lastModified);
 }

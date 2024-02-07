@@ -30,6 +30,10 @@
       }
     }
   },
+  "cancel": "Canceŀla",
+  "ok": "D’acord",
+  "emptyCollectionValidation": "El nom de la coŀlecció no pot ser buit",
+  "newCollection": "Nova coŀlecció",
   "addToACollection": "Afegeix a una coŀlecció",
   "changeCollections": "Canvia les coŀleccions",
   "added": "S’ha afegit",
