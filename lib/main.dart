@@ -19,9 +19,11 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => BookmarkCollections(
-            {'La meva llista ✨': BookmarkCollection('La meva llista ✨', {})},
-          ),
+          create: (context) => BookmarkCollections.fromNames(const [
+            'Curioses 🤭',
+            'Inspiradores 🙌',
+            'Preferides ✨',
+          ]),
         ),
         ChangeNotifierProvider(create: (context) => WordCache({})),
       ],

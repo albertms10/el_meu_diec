@@ -6,7 +6,10 @@ final class BookmarkCollections with ChangeNotifier {
   final Map<String, BookmarkCollection> _collections;
 
   /// Creates a new [BookmarkCollections] from [_collections].
-  BookmarkCollections(this._collections);
+  BookmarkCollections._(this._collections);
+
+  BookmarkCollections.fromNames(List<String> names)
+      : this._({for (final name in names) name: BookmarkCollection(name, {})});
 
   Map<String, BookmarkCollection> get collections =>
       Map.unmodifiable(_collections);
