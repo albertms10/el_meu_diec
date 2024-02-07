@@ -14,6 +14,12 @@ final class BookmarkCollections with ChangeNotifier {
   Set<BookmarkCollection> get sortedCollections =>
       SplayTreeSet.of(_collections.values);
 
+  void addCollection(String name) {
+    notifyListeners();
+
+    _collections.addAll({name: BookmarkCollection(name, {})});
+  }
+
   /// Returns whether [id] is bookmarked.
   bool isBookmarked(String id) =>
       _collections.values.any((collection) => collection.isBookmarked(id));
@@ -83,5 +89,5 @@ final class BookmarkCollection implements Comparable<BookmarkCollection> {
 
   @override
   int compareTo(BookmarkCollection other) =>
-      lastModified.compareTo(other.lastModified);
+      other.lastModified.compareTo(lastModified);
 }
