@@ -1,4 +1,5 @@
 import 'package:el_meu_diec/model.dart';
+import 'package:el_meu_diec/src/utils/string_extension.dart';
 import 'package:flutter/material.dart';
 
 class CollectionAvatar extends StatelessWidget {
@@ -28,7 +29,7 @@ class CollectionAvatar extends StatelessWidget {
         children: [
           for (var i = 0; i < words.length; i++)
             Text(
-              words[i]?.word ?? '',
+              words[i]?.word.stripNumbers ?? '',
               overflow: TextOverflow.fade,
               maxLines: 1,
               softWrap: false,
