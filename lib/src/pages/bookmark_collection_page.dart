@@ -26,6 +26,7 @@ class BookmarkCollectionPage extends StatelessWidget {
           collection.name,
           style: const TextStyle(
             fontVariations: [FontVariation.weight(600)],
+            overflow: TextOverflow.fade,
           ),
         ),
         backgroundColor: theme.canvasColor,

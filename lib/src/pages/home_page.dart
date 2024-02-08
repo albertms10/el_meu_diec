@@ -21,7 +21,10 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           'El meu DIEC',
-          style: TextStyle(fontVariations: [FontVariation.weight(600)]),
+          style: TextStyle(
+            fontVariations: [FontVariation.weight(600)],
+            overflow: TextOverflow.fade,
+          ),
         ),
         backgroundColor: theme.canvasColor,
         surfaceTintColor: theme.canvasColor,

@@ -23,7 +23,10 @@ class CollectionsPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           appLocalizations.myCollections,
-          style: const TextStyle(fontVariations: [FontVariation.weight(600)]),
+          style: const TextStyle(
+            fontVariations: [FontVariation.weight(600)],
+            overflow: TextOverflow.fade,
+          ),
         ),
         backgroundColor: theme.canvasColor,
         surfaceTintColor: theme.canvasColor,
