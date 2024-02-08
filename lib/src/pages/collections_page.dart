@@ -85,6 +85,8 @@ class _AddCollectionDialogState extends State<_AddCollectionDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final collections = Provider.of<BookmarkCollections>(context).collections;
+
     final appLocalizations = AppLocalizations.of(context);
 
     return Form(
@@ -96,8 +98,11 @@ class _AddCollectionDialogState extends State<_AddCollectionDialog> {
           autofocus: true,
           decoration: const InputDecoration(errorMaxLines: 2),
           validator: (value) {
-            if (value == null || value.isEmpty) {
+            if (value == null || value.trim().isEmpty) {
               return appLocalizations.emptyCollectionValidation;
+            }
+            if (collections.containsKey(value.trim())) {
+              return appLocalizations.collectionNameAlreadyInUseValidation;
             }
 
             return null;
@@ -110,9 +115,8 @@ class _AddCollectionDialogState extends State<_AddCollectionDialog> {
           ),
           TextButton(
             onPressed: () {
-              if (_formKey.currentState!.validate()) {
-                Navigator.of(context).pop<String>(_controller.text);
-              }
+              if (!_formKey.currentState!.validate()) return;
+              Navigator.of(context).pop<String>(_controller.text.trim());
             },
             child: Text(appLocalizations.ok),
           ),
