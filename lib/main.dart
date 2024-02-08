@@ -1,4 +1,5 @@
 import 'package:el_meu_diec/model.dart';
+import 'package:feedback/feedback.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -30,7 +31,9 @@ void main() async {
       // Run the app and pass in the SettingsController. The app listens to the
       // SettingsController for changes, then passes it further down to the
       // SettingsView.
-      child: ElMeuDIECApp(settingsController: settingsController),
+      child: BetterFeedback(
+        child: ElMeuDIECApp(settingsController: settingsController),
+      ),
     ),
   );
 }
