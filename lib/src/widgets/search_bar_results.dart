@@ -107,6 +107,7 @@ class _SearchBarResultsState extends State<SearchBarResults> {
                 ),
                 child: TextFormField(
                   autocorrect: false,
+                  autofocus: true,
                   style: const TextStyle(fontSize: 18),
                   decoration: InputDecoration(
                     hintText: appLocalizations.search,
