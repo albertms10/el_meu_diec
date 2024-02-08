@@ -47,31 +47,35 @@ class AutocompleteEntryCard extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text.rich(
-                TextSpan(
-                  children: [
-                    if (isIncompleteStart)
-                      TextSpan(
-                        text: word.word.substring(0, start),
-                        style: headlineTextStyle.copyWith(
-                          color: headlineTextStyle.color!.withOpacity(0.4),
+              Expanded(
+                child: Text.rich(
+                  maxLines: 1,
+                  softWrap: false,
+                  overflow: TextOverflow.fade,
+                  TextSpan(
+                    children: [
+                      if (isIncompleteStart)
+                        TextSpan(
+                          text: word.word.substring(0, start),
+                          style: headlineTextStyle.copyWith(
+                            color: headlineTextStyle.color!.withOpacity(0.4),
+                          ),
                         ),
-                      ),
-                    TextSpan(
-                      text: word.word.substring(start, end),
-                      style: headlineTextStyle,
-                    ),
-                    if (isIncompleteEnd)
                       TextSpan(
-                        text: word.word.substring(end),
-                        style: headlineTextStyle.copyWith(
-                          color: headlineTextStyle.color!.withOpacity(0.4),
-                        ),
+                        text: word.word.substring(start, end),
+                        style: headlineTextStyle,
                       ),
-                  ],
+                      if (isIncompleteEnd)
+                        TextSpan(
+                          text: word.word.substring(end),
+                          style: headlineTextStyle.copyWith(
+                            color: headlineTextStyle.color!.withOpacity(0.4),
+                          ),
+                        ),
+                    ],
+                  ),
                 ),
               ),
-              const Spacer(),
               const SizedBox(width: 4),
               BookmarkButton(word: word),
             ],

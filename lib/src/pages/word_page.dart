@@ -19,6 +19,7 @@ class WordPage extends StatelessWidget {
       appBar: AppBar(
         title: SelectableText(
           word.word,
+          maxLines: 1,
           style: theme.textTheme.displaySmall!.copyWith(fontSize: 32),
         ),
         backgroundColor: Colors.transparent,
