@@ -17,10 +17,14 @@ final class BookmarkCollections with ChangeNotifier {
   Set<BookmarkCollection> get sortedCollections =>
       SplayTreeSet.of(_collections.values);
 
-  void addCollection(String name) {
+  bool addCollection(String name) {
     notifyListeners();
 
+    if (_collections.containsKey(name)) return false;
+
     _collections.addAll({name: BookmarkCollection(name, {})});
+
+    return true;
   }
 
   /// Returns whether [id] is bookmarked.

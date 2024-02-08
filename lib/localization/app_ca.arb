@@ -33,6 +33,7 @@
   "cancel": "Canceŀla",
   "ok": "D’acord",
   "emptyCollectionValidation": "El nom de la coŀlecció no pot ser buit",
+  "collectionNameAlreadyInUseValidation": "El nom de la coŀlecció ja està en ús",
   "newCollection": "Nova coŀlecció",
   "addToACollection": "Afegeix a una coŀlecció",
   "changeCollections": "Canvia les coŀleccions",
