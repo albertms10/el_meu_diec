@@ -18,6 +18,10 @@ class _SearchBarResultsState extends State<SearchBarResults> {
   final ValueNotifier<SearchCondition> _searchCondition =
       ValueNotifier<SearchCondition>(SearchCondition.defaultCondition);
 
+  final _entries = <AutocompleteEntry>[];
+  final _listKey = GlobalKey<AnimatedListState>();
+  var _isLoading = true;
+
   Timer? _debounce;
 
   @override
@@ -30,6 +34,32 @@ class _SearchBarResultsState extends State<SearchBarResults> {
     if (_debounce?.isActive ?? false) _debounce!.cancel();
     _debounce = Timer(const Duration(milliseconds: 500), () {
       _query.value = value.trim();
+      _loadEntries();
+    });
+  }
+
+  void _loadEntries() {
+    AutocompleteEntries.fetch(
+      'ca',
+      searchCondition: _searchCondition.value,
+    ).timeout(const Duration(seconds: 10)).then((entries) {
+      setState(() {
+        _isLoading = false;
+      });
+
+      print(entries);
+
+      if (entries == null) return;
+
+      var future = Future(() {});
+      for (final entry in entries) {
+        future = future.then((value) {
+          return Future.delayed(const Duration(milliseconds: 100), () {
+            _entries.add(entry);
+            _listKey.currentState?.insertItem(_entries.length - 1);
+          });
+        });
+      }
     });
   }
 
@@ -48,8 +78,11 @@ class _SearchBarResultsState extends State<SearchBarResults> {
                 valueListenable: _searchCondition,
                 builder: (context, searchCondition, child) {
                   return AutocompleteEntriesListView(
+                    listKey: _listKey,
                     query: query,
                     searchCondition: searchCondition,
+                    entries: _entries,
+                    isLoading: _isLoading,
                   );
                 },
               );
