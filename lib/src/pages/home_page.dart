@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:ui';
 
 import 'package:el_meu_diec/src/widgets/collections_navigator.dart';
 import 'package:el_meu_diec/src/widgets/search_bar_results.dart';

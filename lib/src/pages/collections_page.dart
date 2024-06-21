@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:el_meu_diec/model.dart';
 import 'package:el_meu_diec/src/widgets/collections_list.dart';
 import 'package:flutter/material.dart';
