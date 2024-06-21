@@ -89,7 +89,7 @@ class _Placeholder extends StatelessWidget {
       height: height,
       margin: const EdgeInsetsDirectional.only(top: 8),
       decoration: BoxDecoration(
-        color: theme.colorScheme.onBackground.withOpacity(0.2),
+        color: theme.colorScheme.onSurface.withOpacity(0.2),
         borderRadius: const BorderRadius.all(Radius.circular(10)),
       ),
     );
