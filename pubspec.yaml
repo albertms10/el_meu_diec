@@ -12,6 +12,7 @@ environment:
 
 dependencies:
   diacritic: ^0.1.5
+  feedback: ^3.0.0
   flutter:
     sdk: flutter
   flutter_localizations:

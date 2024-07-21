@@ -1,7 +1,9 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:el_meu_diec/src/widgets/collections_navigator.dart';
 import 'package:el_meu_diec/src/widgets/search_bar_results.dart';
+import 'package:feedback/feedback.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/svg.dart';
@@ -28,6 +30,12 @@ class HomePage extends StatelessWidget {
         backgroundColor: theme.canvasColor,
         surfaceTintColor: theme.canvasColor,
         shadowColor: theme.canvasColor,
+        leading: IconButton(
+          onPressed: () {
+            BetterFeedback.of(context).show(inspect);
+          },
+          icon: const Icon(Icons.bug_report),
+        ),
         actions: const [
           _CollectionsIconButton(),
         ],
@@ -58,6 +66,7 @@ class _CollectionsIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final parentContext = context;
     final appLocalizations = AppLocalizations.of(context);
 
     return IconButton(
@@ -69,7 +78,7 @@ class _CollectionsIconButton extends StatelessWidget {
         context: context,
         animationCurve: Curves.fastEaseInToSlowEaseOut,
         builder: (context) {
-          return const CollectionsNavigator();
+          return CollectionsNavigator(parentContext: parentContext);
         },
       ),
     );
