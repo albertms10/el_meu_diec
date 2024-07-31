@@ -17,6 +17,7 @@ class CollectionsList extends StatelessWidget {
     final appLocalizations = AppLocalizations.of(context);
 
     return ListView.builder(
+      restorationId: 'collections',
       itemCount: collections.length,
       padding: const EdgeInsetsDirectional.only(bottom: 16),
       itemBuilder: (context, index) {

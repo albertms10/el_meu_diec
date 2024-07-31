@@ -86,6 +86,7 @@ class _EntriesList extends StatelessWidget {
     final theme = Theme.of(context);
 
     return ListView.builder(
+      restorationId: 'autocomplete_entries',
       itemCount: autocompleteEntries.length + 1,
       semanticChildCount: autocompleteEntries.length,
       shrinkWrap: true,
