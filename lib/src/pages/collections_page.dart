@@ -1,5 +1,7 @@
 import 'package:el_meu_diec/model.dart';
+import 'package:el_meu_diec/src/theme.dart';
 import 'package:el_meu_diec/src/widgets/collections_list.dart';
+import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -57,16 +59,18 @@ class _AddCollectionButton extends StatelessWidget {
     return IconButton(
       tooltip: appLocalizations.newCollection,
       onPressed: () async {
-        final collectionName = await showDialog<String>(
+        final result = await showDialog<(String, Color)>(
           context: context,
           builder: (context) {
             return const _AddCollectionDialog();
           },
         );
 
-        if (collectionName == null) return;
+        if (result == null) return;
+        final (name, color) = result;
 
-        bookmarkCollections.addCollection(collectionName);
+        bookmarkCollections
+            .addCollection(BookmarkCollection(name: name, color: color, {}));
       },
       icon: const Icon(Icons.add),
     );
@@ -84,30 +88,75 @@ class _AddCollectionDialogState extends State<_AddCollectionDialog> {
   final _controller = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
+  Color _color = Colors.blue;
+
+  @override
+  void dispose() {
+    _controller.dispose();
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final collections = Provider.of<BookmarkCollections>(context).collections;
 
     final appLocalizations = AppLocalizations.of(context);
 
+    final colorSwatch =
+        ColorScheme.fromSeed(seedColor: _color, primary: _color);
+
     return Form(
       key: _formKey,
       child: AlertDialog(
         title: Text(appLocalizations.newCollection),
-        content: TextFormField(
-          controller: _controller,
-          autofocus: true,
-          decoration: const InputDecoration(errorMaxLines: 2),
-          validator: (value) {
-            if (value == null || value.trim().isEmpty) {
-              return appLocalizations.emptyCollectionValidation;
-            }
-            if (collections.containsKey(value.trim())) {
-              return appLocalizations.collectionNameAlreadyInUseValidation;
-            }
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextFormField(
+              controller: _controller,
+              autofocus: true,
+              decoration: InputDecoration(
+                fillColor: colorSwatch.inversePrimary.withOpacity(0.1),
+                contentPadding: const EdgeInsetsDirectional.all(20),
+                enabledBorder: defaultInputBorder.copyWith(
+                  borderSide: BorderSide(color: colorSwatch.primary, width: 2),
+                ),
+                focusedBorder: defaultInputBorder.copyWith(
+                  borderSide: BorderSide(color: colorSwatch.primary, width: 3),
+                ),
+              ),
+              validator: (value) {
+                if (value == null || value.trim().isEmpty) {
+                  return appLocalizations.emptyCollectionValidation;
+                }
+                if (collections.containsKey(value.trim())) {
+                  return appLocalizations.collectionNameAlreadyInUseValidation;
+                }
 
-            return null;
-          },
+                return null;
+              },
+            ),
+            Flexible(
+              child: SingleChildScrollView(
+                child: ColorPicker(
+                  color: _color,
+                  borderRadius: 20,
+                  enableShadesSelection: false,
+                  pickersEnabled: const {
+                    ColorPickerType.both: true,
+                    ColorPickerType.primary: false,
+                    ColorPickerType.accent: false,
+                  },
+                  onColorChanged: (color) {
+                    setState(() {
+                      _color = color;
+                    });
+                  },
+                ),
+              ),
+            ),
+          ],
         ),
         actions: [
           TextButton(
@@ -117,7 +166,8 @@ class _AddCollectionDialogState extends State<_AddCollectionDialog> {
           TextButton(
             onPressed: () {
               if (!_formKey.currentState!.validate()) return;
-              Navigator.of(context).pop<String>(_controller.text.trim());
+              Navigator.of(context)
+                  .pop<(String, Color)>((_controller.text.trim(), _color));
             },
             child: Text(appLocalizations.ok),
           ),
