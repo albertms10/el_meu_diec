@@ -9,7 +9,10 @@ final class BookmarkCollections with ChangeNotifier {
   BookmarkCollections._(this._collections);
 
   BookmarkCollections.fromNames(List<String> names)
-      : this._({for (final name in names) name: BookmarkCollection(name, {})});
+      : this._({
+          for (final name in names)
+            name: BookmarkCollection(name: name, color: Colors.blue, {}),
+        });
 
   Map<String, BookmarkCollection> get collections =>
       Map.unmodifiable(_collections);
@@ -17,46 +20,47 @@ final class BookmarkCollections with ChangeNotifier {
   Set<BookmarkCollection> get sortedCollections =>
       SplayTreeSet.of(_collections.values);
 
-  bool addCollection(String name) {
+  bool addCollection(BookmarkCollection collection) {
     notifyListeners();
 
-    if (_collections.containsKey(name)) return false;
+    if (_collections.containsKey(collection.name)) return false;
 
-    _collections.addAll({name: BookmarkCollection(name, {})});
+    _collections.addAll({collection.name: collection});
 
     return true;
   }
 
-  /// Returns whether [id] is bookmarked.
-  bool isBookmarked(String id) =>
-      _collections.values.any((collection) => collection.isBookmarked(id));
+  /// Returns whether [wordId] is bookmarked.
+  bool isBookmarked(String wordId) =>
+      _collections.values.any((collection) => collection.isBookmarked(wordId));
 
-  /// Adds [id] bookmark from the last updated collection and returns `true`
+  /// Adds [wordId] bookmark from the last updated collection and returns `true`
   /// as a result.
-  BookmarkCollection addBookmark(String id) {
+  BookmarkCollection addBookmark(String wordId) {
     notifyListeners();
 
-    return _collections[sortedCollections.first.name]!..addBookmark(id);
+    return _collections[sortedCollections.first.name]!..addBookmark(wordId);
   }
 
-  /// Removes [id] bookmark from the last updated collection and returns `false`
-  /// as a result.
-  BookmarkCollection removeBookmark(String id) {
+  /// Removes [wordId] bookmark from the last updated collection and returns
+  /// `false` as a result.
+  BookmarkCollection removeBookmark(String wordId) {
     notifyListeners();
 
-    return _collections[sortedCollections.first.name]!..removeBookmark(id);
+    return _collections[sortedCollections.first.name]!..removeBookmark(wordId);
   }
 }
 
 /// A collection of bookmarks.
 final class BookmarkCollection implements Comparable<BookmarkCollection> {
   final String name;
+  final Color color;
   final Map<String, DateTime> _bookmarks;
 
   late DateTime lastModified;
 
   /// Creates a new [BookmarkCollection] from [name] and [_bookmarks].
-  BookmarkCollection(this.name, this._bookmarks)
+  BookmarkCollection(this._bookmarks, {required this.name, required this.color})
       : lastModified = DateTime.now();
 
   Map<String, DateTime> get bookmarks => Map.unmodifiable(_bookmarks);
@@ -68,21 +72,21 @@ final class BookmarkCollection implements Comparable<BookmarkCollection> {
         ),
       );
 
-  /// Returns whether [id] is bookmarked.
-  bool isBookmarked(String id) => _bookmarks.containsKey(id);
+  /// Returns whether [wordId] is bookmarked.
+  bool isBookmarked(String wordId) => _bookmarks.containsKey(wordId);
 
-  /// Adds [id] bookmark and returns `true` as a result.
-  bool addBookmark(String id) {
+  /// Adds [wordId] bookmark and returns `true` as a result.
+  bool addBookmark(String wordId) {
     lastModified = DateTime.now().toUtc();
-    _bookmarks.addAll({id: lastModified});
+    _bookmarks.addAll({wordId: lastModified});
 
     return true;
   }
 
-  /// Removes [id] bookmark and returns `false` as a result.
-  bool removeBookmark(String id) {
+  /// Removes [wordId] bookmark and returns `false` as a result.
+  bool removeBookmark(String wordId) {
     lastModified = DateTime.now().toUtc();
-    _bookmarks.remove(id);
+    _bookmarks.remove(wordId);
 
     return false;
   }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 const _color = Colors.red;
 const inputBorderRadius = BorderRadius.all(Radius.circular(32));
-const _defaultInputBorder = OutlineInputBorder(
+const defaultInputBorder = OutlineInputBorder(
   borderRadius: inputBorderRadius,
   borderSide: BorderSide.none,
 );
@@ -19,12 +19,12 @@ InputDecorationTheme _inputDecorationTheme(ColorScheme colorScheme) =>
           ? Colors.white
           : Colors.black,
       contentPadding: const EdgeInsetsDirectional.all(20),
-      border: _defaultInputBorder,
-      enabledBorder: _defaultInputBorder,
-      focusedBorder: _defaultInputBorder.copyWith(
+      border: defaultInputBorder,
+      enabledBorder: defaultInputBorder,
+      focusedBorder: defaultInputBorder.copyWith(
         borderSide: BorderSide(color: colorScheme.primary, width: 2),
       ),
-      focusedErrorBorder: _defaultInputBorder.copyWith(
+      focusedErrorBorder: defaultInputBorder.copyWith(
         borderSide: BorderSide(color: colorScheme.error, width: 3),
       ),
     );

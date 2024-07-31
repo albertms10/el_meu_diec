@@ -29,7 +29,15 @@ class CollectionsList extends StatelessWidget {
           title: Text(collection.name),
           subtitle: Text(appLocalizations.nWords(bookmarks.length)),
           visualDensity: const VisualDensity(horizontal: 4, vertical: 4),
-          leading: CollectionAvatar(words: lastWords),
+          leading: Theme(
+            data: ThemeData(
+              colorScheme: ColorScheme.fromSeed(
+                seedColor: collection.color,
+                primary: collection.color,
+              ),
+            ),
+            child: CollectionAvatar(words: lastWords),
+          ),
           onTap: () async {
             await Navigator.of(context).pushNamed(
               BookmarkCollectionPage.routeName,

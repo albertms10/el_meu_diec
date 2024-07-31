@@ -10,32 +10,30 @@ class CollectionAvatar extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    const wordTextStyle =
-        TextStyle(fontSize: 16, letterSpacing: -0.5, height: 1.15);
+    const wordTextStyle = TextStyle(fontSize: 16, letterSpacing: -0.5);
 
     return Container(
       width: 72,
       height: 72,
-      padding: const EdgeInsets.all(6),
+      padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(12)),
-        border: Border.all(color: theme.colorScheme.outline),
+        border: Border.all(color: theme.colorScheme.primary, width: 1.5),
+        color: theme.colorScheme.inversePrimary.withOpacity(0.1),
       ),
       child: Wrap(
         spacing: 2,
-        runSpacing: 1,
+        runSpacing: -5,
         clipBehavior: Clip.antiAlias,
         children: [
           for (var i = 0; i < words.length; i++)
             Text(
-              words[i]?.word ?? '',
+              words[i]!.word,
               overflow: TextOverflow.fade,
               maxLines: 1,
               softWrap: false,
               style: wordTextStyle.copyWith(
-                color: i.isOdd
-                    ? theme.colorScheme.inversePrimary
-                    : Colors.grey[600],
+                color: theme.colorScheme.primary.withOpacity(i.isOdd ? 0.5 : 1),
               ),
             ),
         ],
