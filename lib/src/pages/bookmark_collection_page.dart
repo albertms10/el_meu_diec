@@ -33,6 +33,7 @@ class BookmarkCollectionPage extends StatelessWidget {
       ),
       backgroundColor: theme.canvasColor,
       body: ListView.builder(
+        restorationId: 'bookmarks',
         padding: const EdgeInsetsDirectional.only(
           start: 16,
           end: 16,

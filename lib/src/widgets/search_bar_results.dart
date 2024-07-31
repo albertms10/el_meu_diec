@@ -67,6 +67,7 @@ class _SearchBarResultsState extends State<SearchBarResults> {
                   valueListenable: _searchCondition,
                   builder: (context, searchCondition, child) {
                     return ListView.separated(
+                      restorationId: 'search_conditions',
                       itemCount: SearchCondition.values.length,
                       scrollDirection: Axis.horizontal,
                       padding:
