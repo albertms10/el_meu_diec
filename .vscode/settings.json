@@ -4,8 +4,10 @@
     "Autovalidate",
     "cupertino",
     "diec",
+    "dotenv",
     "fullscreen",
     "Fullscreen",
-    "playfair"
+    "playfair",
+    "Supabase"
   ]
 }
