@@ -28,7 +28,7 @@ void main() {
 
       test(
           'should create a new DefinitionEntrySense '
-          '{number, gender, scopes, definition}', () {
+          '{number, gender, scopes, definition, single example}', () {
         expect(
           DefinitionEntrySense.fromElements(
             parseFragment('''
@@ -40,6 +40,7 @@ void main() {
             gender: Gender.m,
             scopes: [Scope.FS],
             definition: 'En fil., estat de realitat o existència real.',
+            examples: ['Passar de la potència a l’acte.'],
           ),
         );
       });
@@ -95,6 +96,30 @@ void main() {
             scopes: [Scope.LC],
             redirectWord: Word(id: '0011665', word: 'Neerlandès'),
             definition: 'f.', // TODO(albertms10): should be `gender`.
+          ),
+        );
+      });
+
+      test(
+          'should create a new DefinitionEntrySense '
+          '{number, gender, scopes, multiple examples}', () {
+        expect(
+          DefinitionEntrySense.fromElements(
+            parseFragment('''
+<span class="body" xmlns:fo="http://www.w3.org/1999/XSL/Format"><B>1 </B><I>2 </I></span><span class="tagline" xmlns:fo="http://www.w3.org/1999/XSL/Format">intr.</span><span class="body" xmlns:fo="http://www.w3.org/1999/XSL/Format"> <span class="tip" onmouseover="doTooltip(event, ' [LC] ' )" onmouseout="hideTip()"> [LC] </span> </span><span class="body" xmlns:fo="http://www.w3.org/1999/XSL/Format"><span class="italic">Usar algú del seu dret. </span></span><span class="body" xmlns:fo="http://www.w3.org/1999/XSL/Format"><span class="italic">Usar algú malament de les riqueses. </span></span><span class="body" xmlns:fo="http://www.w3.org/1999/XSL/Format"><span class="italic">Useu del meu crèdit. </span></span><span class="body" xmlns:fo="http://www.w3.org/1999/XSL/Format"><span class="italic">Useu-ne, però no n’abuseu. </span></span>
+''').children,
+          ),
+          const DefinitionEntrySense(
+            number: 1,
+            subNumber: 2,
+            scopes: [Scope.LC],
+            definition: 'intr.',
+            examples: [
+              'Usar algú del seu dret.',
+              'Usar algú malament de les riqueses.',
+              'Useu del meu crèdit.',
+              'Useu-ne, però no n’abuseu.',
+            ],
           ),
         );
       });
