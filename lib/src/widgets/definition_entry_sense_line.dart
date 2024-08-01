@@ -87,14 +87,13 @@ class DefinitionEntrySenseLine extends StatelessWidget {
                       style:
                           bodyTextTheme.copyWith(fontWeight: FontWeight.bold),
                     ),
-                  if (sense.examples != null)
-                    for (final example in sense.examples!)
-                      TextSpan(
-                        text: '$example ',
-                        style: bodyTextTheme.copyWith(
-                          color: bodyTextTheme.color?.withOpacity(0.6),
-                        ),
+                  for (final example in sense.examples)
+                    TextSpan(
+                      text: '$example ',
+                      style: bodyTextTheme.copyWith(
+                        color: bodyTextTheme.color?.withOpacity(0.6),
                       ),
+                    ),
                 ],
               ),
             ),
