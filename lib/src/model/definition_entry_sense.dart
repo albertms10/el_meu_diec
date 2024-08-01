@@ -14,6 +14,7 @@ final class DefinitionEntrySense {
   final String? locution;
   final String? definition;
   final Word? redirectWord;
+  final List<String> examples;
 
   const DefinitionEntrySense({
     this.number,
@@ -23,6 +24,7 @@ final class DefinitionEntrySense {
     this.locution,
     this.definition,
     this.redirectWord,
+    this.examples = const <String>[],
   });
 
   static int? parseNumber(Element element) {
@@ -77,6 +79,12 @@ final class DefinitionEntrySense {
     return Word(id: wordIdMatch[1]!, word: wordNameMatch[1]!);
   }
 
+  static String? parseExample(Element element) {
+    if (element.className != 'italic') return null;
+
+    return element.innerHtml.trim();
+  }
+
   factory DefinitionEntrySense.fromElements(List<Element> elements) {
     int? number;
     int? subNumber;
@@ -85,6 +93,7 @@ final class DefinitionEntrySense {
     String? locution;
     String? definition;
     Word? redirectWord;
+    final examples = <String>[];
 
     for (final element in elements) {
       if (element.localName != 'span') continue;
@@ -116,6 +125,9 @@ final class DefinitionEntrySense {
           redirectWord = parseRedirectEntry(child);
           if (redirectWord != null) continue;
         }
+
+        final example = parseExample(child);
+        if (example != null) examples.add(example);
       }
     }
 
@@ -127,6 +139,7 @@ final class DefinitionEntrySense {
       locution: locution,
       definition: definition,
       redirectWord: redirectWord,
+      examples: examples,
     );
   }
 
@@ -139,6 +152,7 @@ final class DefinitionEntrySense {
         'locution: $locution',
         'definition: $definition',
         'redirectWord: $redirectWord',
+        'examples: $examples',
       ].join('\n');
 
   @override
@@ -150,17 +164,19 @@ final class DefinitionEntrySense {
       listEquals(scopes, other.scopes) &&
       locution == other.locution &&
       definition == other.definition &&
-      redirectWord == other.redirectWord;
+      redirectWord == other.redirectWord &&
+      listEquals(examples, other.examples);
 
   @override
   int get hashCode => Object.hash(
         number,
         subNumber,
         gender,
-        scopes,
+        Object.hashAll(scopes),
         locution,
         definition,
         redirectWord,
+        Object.hashAll(examples),
       );
 }
 
