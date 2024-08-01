@@ -81,6 +81,12 @@ class DefinitionEntrySenseLine extends StatelessWidget {
                       text: '${sense.definition}',
                       style: bodyTextTheme,
                     ),
+                  if (sense.redirectWord != null)
+                    TextSpan(
+                      text: 'v. ${sense.redirectWord!.word}',
+                      style:
+                          bodyTextTheme.copyWith(fontWeight: FontWeight.bold),
+                    ),
                 ],
               ),
             ),
