@@ -94,7 +94,7 @@ void main() {
             number: 1,
             scopes: [Scope.LC],
             redirectWord: Word(id: '0011665', word: 'Neerlandès'),
-            definition: 'f.', // TODO: should be `gender`
+            definition: 'f.', // TODO(albertms10): should be `gender`.
           ),
         );
       });
