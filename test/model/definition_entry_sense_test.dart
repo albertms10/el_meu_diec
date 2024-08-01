@@ -64,6 +64,40 @@ void main() {
           ),
         );
       });
+
+      test(
+          'should create a new DefinitionEntrySense '
+          '{scopes, redirectWord}', () {
+        expect(
+          DefinitionEntrySense.fromElements(
+            parseFragment('''
+<span class="body" xmlns:fo="http://www.w3.org/1999/XSL/Format"></span>  <span class="body" xmlns:fo="http://www.w3.org/1999/XSL/Format"> <span class="tip" onmouseover="doTooltip(event, ' [LC] ' )" onmouseout="hideTip()"> [LC] </span><span class="tip" onmouseover="doTooltip(event, ' [ZOI] ' )" onmouseout="hideTip()"> [ZOI] </span> </span><span class="body" xmlns:fo="http://www.w3.org/1999/XSL/Format"><span class="versaleta"><A href="javascript:GetFullAccepcio('0038511')">V. caragol</A></span>. </span>
+''').children,
+          ),
+          const DefinitionEntrySense(
+            scopes: [Scope.LC, Scope.ZOI],
+            redirectWord: Word(id: '0038511', word: 'caragol'),
+          ),
+        );
+      });
+
+      test(
+          'should create a new DefinitionEntrySense '
+          '{number, gender, scopes, redirectWord without v.}', () {
+        expect(
+          DefinitionEntrySense.fromElements(
+            parseFragment('''
+<span class="body" xmlns:fo="http://www.w3.org/1999/XSL/Format"><B>1 </B></span> <span class="tagline" xmlns:fo="http://www.w3.org/1999/XSL/Format">adj. <span class="rodona">i</span> m. <span class="rodona">i</span> f.</span> <span class="body" xmlns:fo="http://www.w3.org/1999/XSL/Format"> <span class="tip" onmouseover="doTooltip(event, ' [LC] ' )" onmouseout="hideTip()"> [LC] </span> </span><span class="body" xmlns:fo="http://www.w3.org/1999/XSL/Format"><span class="versaleta"><A href="javascript:GetFullAccepcio('0011665')">Neerlandès</A></span>.</span>
+''').children,
+          ),
+          const DefinitionEntrySense(
+            number: 1,
+            scopes: [Scope.LC],
+            redirectWord: Word(id: '0011665', word: 'Neerlandès'),
+            definition: 'f.', // TODO: should be `gender`
+          ),
+        );
+      });
     });
   });
 }
