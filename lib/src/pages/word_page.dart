@@ -42,7 +42,16 @@ class WordPage extends StatelessWidget {
           actions: [
             BookmarkButton(word: word, isTonalFilled: true),
             IconButton.filledTonal(
-              onPressed: () => Share.shareUri(const DIECRoutes().wordUri(word)),
+              onPressed: () {
+                final box = context.findRenderObject() as RenderBox?;
+
+                Share.shareUri(
+                  const DIECRoutes().wordUri(word),
+                  // See https://pub.dev/packages/share_plus#ipad
+                  sharePositionOrigin:
+                      box!.localToGlobal(Offset.zero) & box.size,
+                );
+              },
               icon: const Icon(Icons.ios_share_rounded),
             ),
             const SizedBox(width: 4),
