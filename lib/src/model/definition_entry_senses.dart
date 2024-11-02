@@ -1,5 +1,3 @@
-// ignore_for_file: lines_longer_than_80_chars
-
 import 'package:html/dom.dart';
 import 'package:html/parser.dart' as html show parse;
 

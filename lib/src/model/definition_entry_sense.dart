@@ -3,6 +3,7 @@ import 'package:html/dom.dart';
 
 import 'gender.dart';
 import 'scope.dart';
+import 'word.dart';
 
 @immutable
 final class DefinitionEntrySense {
@@ -12,6 +13,8 @@ final class DefinitionEntrySense {
   final List<Scope> scopes;
   final String? locution;
   final String? definition;
+  final Word? redirectWord;
+  final List<String> examples;
 
   const DefinitionEntrySense({
     this.number,
@@ -20,6 +23,8 @@ final class DefinitionEntrySense {
     this.scopes = const <Scope>[],
     this.locution,
     this.definition,
+    this.redirectWord,
+    this.examples = const <String>[],
   });
 
   static int? parseNumber(Element element) {
@@ -46,10 +51,38 @@ final class DefinitionEntrySense {
     final textNode = element.nodes.lastOrNull;
     if (textNode?.nodeType == Node.TEXT_NODE) {
       final trimmedText = textNode!.text?.trim();
-      if (trimmedText?.isNotEmpty ?? false) definition = trimmedText;
+      if ((trimmedText?.isNotEmpty ?? false) && trimmedText!.hasWords) {
+        definition = trimmedText;
+      }
     }
 
     return (definition, parseLocution(element));
+  }
+
+  static final _wordIdRegExp = RegExp(r"'(\d+)'");
+  static final _redirectWordRegExp =
+      RegExp('(?:v. )?(.+)', caseSensitive: false);
+
+  static Word? parseRedirectEntry(Element element) {
+    if (element.className != 'versaleta') return null;
+    final child = element.children.firstOrNull;
+    if (child?.localName != 'a') return null;
+    final hrefAttribute = child!.attributes['href'];
+    if (hrefAttribute == null) return null;
+
+    final wordIdMatch = _wordIdRegExp.firstMatch(hrefAttribute);
+    if (wordIdMatch == null || wordIdMatch[1] == null) return null;
+
+    final wordNameMatch = _redirectWordRegExp.firstMatch(child.innerHtml);
+    if (wordNameMatch == null) return null;
+
+    return Word(id: wordIdMatch[1]!, word: wordNameMatch[1]!);
+  }
+
+  static String? parseExample(Element element) {
+    if (element.className != 'italic') return null;
+
+    return element.innerHtml.trim();
   }
 
   factory DefinitionEntrySense.fromElements(List<Element> elements) {
@@ -59,6 +92,8 @@ final class DefinitionEntrySense {
     final scopes = <Scope>[];
     String? locution;
     String? definition;
+    Word? redirectWord;
+    final examples = <String>[];
 
     for (final element in elements) {
       if (element.localName != 'span') continue;
@@ -67,17 +102,16 @@ final class DefinitionEntrySense {
         if (gender != null) continue;
       }
       if (definition == null) {
-        (definition, locution) =
-            DefinitionEntrySense.parseDefinitionAndLocution(element);
+        (definition, locution) = parseDefinitionAndLocution(element);
       }
 
       for (final child in element.children) {
         if (number == null) {
-          number = DefinitionEntrySense.parseNumber(child);
+          number = parseNumber(child);
           if (number != null) continue;
         }
         if (subNumber == null) {
-          subNumber = DefinitionEntrySense.parseSubNumber(child);
+          subNumber = parseSubNumber(child);
           if (subNumber != null) continue;
         }
 
@@ -86,6 +120,14 @@ final class DefinitionEntrySense {
           scopes.add(scope);
           continue;
         }
+
+        if (redirectWord == null) {
+          redirectWord = parseRedirectEntry(child);
+          if (redirectWord != null) continue;
+        }
+
+        final example = parseExample(child);
+        if (example != null) examples.add(example);
       }
     }
 
@@ -96,6 +138,8 @@ final class DefinitionEntrySense {
       scopes: scopes,
       locution: locution,
       definition: definition,
+      redirectWord: redirectWord,
+      examples: examples,
     );
   }
 
@@ -107,6 +151,8 @@ final class DefinitionEntrySense {
         'scopes: $scopes',
         'locution: $locution',
         'definition: $definition',
+        'redirectWord: $redirectWord',
+        'examples: $examples',
       ].join('\n');
 
   @override
@@ -117,9 +163,25 @@ final class DefinitionEntrySense {
       gender == other.gender &&
       listEquals(scopes, other.scopes) &&
       locution == other.locution &&
-      definition == other.definition;
+      definition == other.definition &&
+      redirectWord == other.redirectWord &&
+      listEquals(examples, other.examples);
 
   @override
-  int get hashCode =>
-      Object.hash(number, subNumber, gender, scopes, locution, definition);
+  int get hashCode => Object.hash(
+        number,
+        subNumber,
+        gender,
+        Object.hashAll(scopes),
+        locution,
+        definition,
+        redirectWord,
+        Object.hashAll(examples),
+      );
+}
+
+extension on String {
+  static final _wordRegExp = RegExp(r'\w');
+
+  bool get hasWords => _wordRegExp.hasMatch(this);
 }

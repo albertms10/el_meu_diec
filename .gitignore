@@ -10,7 +10,8 @@
 .svn/
 migrate_working_dir/
 coverage/
-.env
+.env*
+!.env.example
 
 # IntelliJ related
 *.iml
