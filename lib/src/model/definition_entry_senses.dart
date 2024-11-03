@@ -22,16 +22,12 @@ extension DefinitionEntrySenses on List<DefinitionEntrySense> {
     final tempDefinitionElements = <Element>[];
 
     for (final child in body.children) {
-      if (child.localName == 'br') {
-        if (tempDefinitionElements.isNotEmpty) {
+      switch (child) {
+        case Element(localName: 'br') when tempDefinitionElements.isNotEmpty:
           definitions.add(tempDefinitionElements.toList());
           tempDefinitionElements.clear();
-        }
-        continue;
-      }
-
-      if (child.localName == 'span') {
-        tempDefinitionElements.add(child);
+        case Element(localName: 'span'):
+          tempDefinitionElements.add(child);
       }
     }
 
