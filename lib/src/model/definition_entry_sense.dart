@@ -82,7 +82,7 @@ final class DefinitionEntrySense {
   static String? parseExample(Element element) {
     if (element.className != 'italic') return null;
 
-    return element.innerHtml.trim();
+    return element.text.trim();
   }
 
   factory DefinitionEntrySense.fromElements(List<Element> elements) {
