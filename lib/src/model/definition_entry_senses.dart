@@ -2,6 +2,7 @@ import 'package:html/dom.dart';
 import 'package:html/parser.dart' as html show parse;
 
 import '../repositories/diec_repository.dart';
+import '../repositories/repository.dart';
 import 'definition_entry_sense.dart';
 
 extension DefinitionEntrySenses on List<DefinitionEntrySense> {
@@ -13,8 +14,11 @@ extension DefinitionEntrySenses on List<DefinitionEntrySense> {
           DefinitionEntrySense.fromElements(element),
       ];
 
-  static Future<List<DefinitionEntrySense>?> fetch(String id) async {
-    final responseBody = await const DIECRepository().definitionEntries(id);
+  static Future<List<DefinitionEntrySense>?> fetch(
+    String id, {
+    DictionaryRepository repository = const DIECRepository(),
+  }) async {
+    final responseBody = await repository.definitionEntries(id);
     final document = html.parse(responseBody['content']);
     final body = document.getElementsByTagName('body').first;
 
