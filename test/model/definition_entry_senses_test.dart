@@ -4,7 +4,7 @@ import 'dart:convert' show json;
 import 'dart:io' show File;
 
 import 'package:el_meu_diec/model.dart';
-import 'package:el_meu_diec/src/repositories/repository.dart';
+import 'package:el_meu_diec/repositories.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 class MockRepository extends DictionaryRepository {
