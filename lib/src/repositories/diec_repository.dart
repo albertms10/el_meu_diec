@@ -4,13 +4,13 @@ import 'package:flutter/foundation.dart' show debugPrint, immutable;
 import 'package:http/http.dart' as http;
 
 import '../model/search_condition.dart';
+import 'repository.dart';
 
 @immutable
-final class DIECRepository {
-  final String authority;
+final class DIECRepository extends DictionaryRepository {
+  const DIECRepository({super.authority = 'dlc.iec.cat'});
 
-  const DIECRepository({this.authority = 'dlc.iec.cat'});
-
+  @override
   Future<Map<String, dynamic>> autocompleteEntries(
     String query, {
     required SearchCondition searchCondition,
@@ -30,6 +30,7 @@ final class DIECRepository {
     return _parseResponse(response);
   }
 
+  @override
   Future<Map<String, dynamic>> definitionEntries(String id) async {
     final response = await http.post(
       Uri.https(authority, '/Results/Accepcio', {'id': id}),

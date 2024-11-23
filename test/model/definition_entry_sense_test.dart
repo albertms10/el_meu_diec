@@ -1,3 +1,5 @@
+// ignore_for_file: lines_longer_than_80_chars
+
 import 'package:el_meu_diec/model.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:html/parser.dart';
@@ -119,6 +121,34 @@ void main() {
               'Usar algú malament de les riqueses.',
               'Useu del meu crèdit.',
               'Useu-ne, però no n’abuseu.',
+            ],
+          ),
+        );
+      });
+
+      test(
+          'should create a new DefinitionEntrySense '
+          '{number, gender, scopes, multiple examples}', () {
+        expect(
+          DefinitionEntrySense.fromElements(
+            parseFragment('''
+><span class="body" xmlns:fo="http://www.w3.org/1999/XSL/Format"><B>1 </B><I>1 </I></span><span class="tagline" xmlns:fo="http://www.w3.org/1999/XSL/Format">f.</span><span class="body" xmlns:fo="http://www.w3.org/1999/XSL/Format"> <span class="tip" onmouseover="doTooltip(event, ' [LC] ' )" onmouseout="hideTip()"> [LC] </span><span class="tip" onmouseover="doTooltip(event, ' [FL] ' )" onmouseout="hideTip()"> [FL] </span><span class="tip" onmouseover="doTooltip(event, ' [FLL] ' )" onmouseout="hideTip()"> [FLL] </span> </span><span class="body" xmlns:fo="http://www.w3.org/1999/XSL/Format">Traducció d’un text d’un idioma a un altre, tant en el sentit escolar com en el sentit de recreació artística. </span><span class="body" xmlns:fo="http://www.w3.org/1999/XSL/Format"><span class="italic">Versió llatina. </span></span><span class="body" xmlns:fo="http://www.w3.org/1999/XSL/Format"><span class="italic">Versió literal. </span></span><span class="body" xmlns:fo="http://www.w3.org/1999/XSL/Format"><span class="italic">La versió que Carles Riba feu de l’<span class="rodona">Odissea </span>és una obra cabdal de la poesia catalana. </span></span><span class="body" xmlns:fo="http://www.w3.org/1999/XSL/Format"><span class="italic">Versions de Hölderlin. </span></span>
+''').children,
+          ),
+          const DefinitionEntrySense(
+            number: 1,
+            subNumber: 1,
+            gender: Gender.f,
+            scopes: [Scope.LC, Scope.FL, Scope.FLL],
+            definition:
+                'Traducció d’un text d’un idioma a un altre, tant en el '
+                'sentit escolar com en el sentit de recreació artística.',
+            examples: [
+              'Versió llatina.',
+              'Versió literal.',
+              // TODO(albertms10): parse italic style from `<span>` elements.
+              'La versió que Carles Riba feu de l’Odissea és una obra cabdal de la poesia catalana.',
+              'Versions de Hölderlin.',
             ],
           ),
         );
