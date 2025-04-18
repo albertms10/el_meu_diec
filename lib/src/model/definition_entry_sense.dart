@@ -5,6 +5,15 @@ import 'gender.dart';
 import 'scope.dart';
 import 'word.dart';
 
+class ChainItem<T> {
+  final T? Function()? value;
+  final T Function(T)? set;
+  final T? Function(Element)? function;
+  final void Function(T)? transform;
+
+  const ChainItem({this.value, this.set, this.function, this.transform});
+}
+
 @immutable
 final class DefinitionEntrySense {
   final int? number;
@@ -105,7 +114,32 @@ final class DefinitionEntrySense {
         (definition, locution) = parseDefinitionAndLocution(element);
       }
 
+      final chain = [
+        ChainItem(
+          value: () => number,
+          set: (dynamic newNumber) => number = newNumber as int,
+          function: parseNumber,
+        ),
+        ChainItem(
+          value: () => subNumber,
+          set: (dynamic newSubNumber) => number = newSubNumber as int,
+          function: parseSubNumber,
+        ),
+        ChainItem<Scope>(function: Scope.parse, transform: scopes.add),
+        ChainItem(value: () => redirectWord, function: parseRedirectEntry),
+        ChainItem<String>(function: parseExample, transform: examples.add),
+      ];
+
       for (final child in element.children) {
+        for (final chainElement in chain) {
+          if (chainElement.value?.call() != null) continue;
+          final value = chainElement.function?.call(child);
+          if (value != null) {
+            final newElement = chainElement.set?.call(value);
+            if (newElement != null) continue;
+          }
+        }
+
         if (number == null) {
           number = parseNumber(child);
           if (number != null) continue;
